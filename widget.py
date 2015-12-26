@@ -16,14 +16,25 @@ class Widget(Surface):
             self.parent = screen
         self.xy = _topleft_from_aligned_xy(xy,align,size,self.parent.size)
         self.surface = self.parent.surface.subsurface(pygame.Rect(self.xy,size))
+        self.visible = True
         if hasattr(self.parent,'touch'):
-            self.parent.touch(self.xy,size,"topleft")(self.on_touch)
+            self.parent.touch(self.xy,size,"topleft")(self._touch)
         else:
-            touch(self.xy,self.size,"topleft")(self.on_touch)
+            touch(self.xy,self.size,"topleft")(self._touch)
+            
+    def _touch(self):
+        if self.visible:
+            self.on_touch()
             
     def on_touch(self,xy,action):
         """Override this method for any widgets that respond to touch events"""
         pass
+        
+    def update(self):
+        """call this method to redraw the widget. The widget will only be drawn if visible
+        do not override it"""
+        if self.visible:
+            self.draw()
         
     def draw(self):
         """Override this method for all derived widgets"""
