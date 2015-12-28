@@ -21,18 +21,20 @@ class Widget(Surface):
             parent.touch((0,0),size,"topleft",self)(self._touch)
         else:
             touch((0,0),size,"topleft",self)(self._touch)
+        if hasattr(parent,'register'):
+            parent.register(self)
             
-    def _touch(self):
+    def _touch(self,xy,action):
         if self.visible:
-            self.on_touch()
+            self.on_touch(xy,action)
             
     def on_touch(self,xy,action):
         """Override this method for any widgets that respond to touch events"""
         pass
         
     def update(self):
-        """call this method to redraw the widget. The widget will only be drawn if visible
-        do not override it"""
+        """Call this method to redraw the widget. The widget will only be drawn if visible
+        Do not override it"""
         if self.visible:
             self.draw()
         
