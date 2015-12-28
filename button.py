@@ -3,7 +3,14 @@ from .widget import Widget
 
 
 class Button(Widget):
-    def __init__(self, xy, size, align="center", parent=None, text="OK", bg_color="black", text_color="white", active_color="red", callback=None):
+    def __init__(self, xy, size, align="center", parent=None, text="OK", bg_color="blue", text_color="white", active_color="aqua", callback=None):
+        """create a button with size and position specified by xy, size and align
+        it will have parent as a containing widget or will be placed directly on screen if parent is None
+        bg_color: background color
+        text_color: text color
+        active_color: colour of button while being pressed
+        callback: a function to be called when the button is pressed
+        """
         super(Button,self).__init__(xy,size,align,parent)
         self.but_text = text
         self.bg_color = bg_color
