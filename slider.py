@@ -4,12 +4,20 @@ from ..graphics import _topleft_from_aligned_xy
 
 
 class Slider(Widget):
+    """A general purpose slider widget
+    Attributes:
+        value: current value of the slider as a float
+        max_val: maximum value that the slider can have
+        min_val: minimum value that the slider can have
+        step:    step value that the slider will change by if clicked
+        change_callback: a function that accepts a float - called when the value is changed by a touch event
+    """
     def __init__(self,xy,size,align="center",parent=None,max_val=1.0,min_val=0.0,step=None,change_callback=None):
         """create a button with size and position specified by xy, size and align
         it will be a vertical slider if height is greater than width, otherwise horizontal
         max_val and min_val specify the maximum and minimum values respectively
         step specifies the step value, or 1/10 on the distance between max_val and min_val if zero or None
-        change_callback is a function to call if the value changes
+        change_callback(value) is a function to call if the value is changed
         """
         super(Slider,self).__init__(xy,size,align,parent)
         self.vertical = size[0] < size[1]

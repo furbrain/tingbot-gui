@@ -3,9 +3,18 @@ from .widget import Widget
 
 
 class Button(Widget):
-    def __init__(self, xy, size, align="center", parent=None, text="OK", bg_color="blue", text_color="white", active_color="aqua", callback=None):
+    """A button widget
+    Attributes:
+        but_text: text on the widget
+        bg_color: background color
+        text_color: text color
+        active_color: colour of button while being pressed
+        callback: function to call when the button is pressed. No arguments taken
+    """
+    def __init__(self, xy, size, align="center", parent=None, but_text="OK", bg_color="blue", text_color="white", active_color="aqua", callback=None):
         """create a button with size and position specified by xy, size and align
         it will have parent as a containing widget or will be placed directly on screen if parent is None
+        but_text: text to display on the button
         bg_color: background color
         text_color: text color
         active_color: colour of button while being pressed
