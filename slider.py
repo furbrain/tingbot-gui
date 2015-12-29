@@ -29,7 +29,7 @@ class Slider(Widget):
             self.step = (max_val-min_val)/10
         self.value = min_val
         self.pressed = False
-        self.callback = change_callback
+        self.change_callback = change_callback
         
     def get_handle_size(self):
         (w,h) = self.size
@@ -82,8 +82,8 @@ class Slider(Widget):
                 self.value = self.min_val+pos*(self.max_val-self.min_val)
                 self.value = min(self.value,self.max_val)
                 self.value = max(self.value,self.min_val)
-                if self.callback:
-                    self.callback(self.value)
+                if self.change_callback:
+                    self.change_callback(self.value)
                 self.update()
         else:
             if action=="down":
