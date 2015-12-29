@@ -36,7 +36,7 @@ class Slider(Widget):
         position = (self.value-self.min_val)/(self.max_val-self.min_val)
         position = max(min(position,1.0),0.0) #clip to be with max_val and min_val
         if self.vertical:
-            position = (w/2,int(h-((h-handle_size[1])*position)+handle_size[1]/2))
+            position = (w/2,int(h-((h-handle_size[1])*position)-handle_size[1]/2))
         else:
             position = (int((w-handle_size[0])*position)+handle_size[0]/2,h/2)
         return position
@@ -68,7 +68,7 @@ class Slider(Widget):
         if self.pressed:
             if action=="move" or action=="up":
                 if self.vertical:
-                    pos = float(xy[1]-handle_size[1]/2)/(self.size[1]-handle_size[1])
+                    pos = 1.0-float(xy[1]-handle_size[1]/2)/(self.size[1]-handle_size[1])
                 else:
                     pos = float(xy[0]-handle_size[0]/2)/(self.size[0]-handle_size[0])
                 self.value = self.min_val+pos*(self.max_val-self.min_val)
