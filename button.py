@@ -21,7 +21,7 @@ class Button(Widget):
         callback: a function to be called when the button is pressed
         """
         super(Button,self).__init__(xy,size,align,parent)
-        self.but_text = text
+        self.but_text = but_text
         self.bg_color = bg_color
         self.text_color = text_color
         self.active_color = active_color
