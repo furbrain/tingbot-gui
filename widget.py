@@ -18,7 +18,7 @@ class Widget(Surface):
         self.surface = self.parent.surface.subsurface(pygame.Rect(self.xy,size))
         self.visible = True
         if hasattr(parent,'touch'):
-            parent.touch((0,0),size,"topleft",self)(self._touch)
+            parent.touch(self)
         else:
             touch((0,0),size,"topleft",self)(self._touch)
         if hasattr(parent,'register'):
