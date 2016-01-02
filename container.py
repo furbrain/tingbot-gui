@@ -1,7 +1,8 @@
 import pygame
-from .widget import Widget
 from ..input import HitArea
 from ..graphics import _xy_subtract
+from .widget import Widget
+from .slider import Slider
 
 class Container(Widget):
     """This is a base class for both Panels and ScrollAreas
@@ -51,3 +52,25 @@ class Panel(Container):
     """Use this class to specify groups of widgets that can be turned on and off together"""
     pass
 
+class ScrollArea(Container):
+    """Use this class to specify a sub-window with (optional) scrollbars"""
+    
+    def __init__(self,xy,size,align="center",parent=None,canvas_size=None,vscrollbar=False,hscrollbar=False):
+        super(ScrollArea,self).__init__(xy,size,align,parent)
+        self.top_surface = self.surface
+        self.surface = pygame.Surface(canvas_size,0,self.top_surface)
+        self.position = (0,0)
+        self.vslider = None
+        self.hslider = None
+        if vscrollbar:
+            self.vslider = Slider(xy = (size[0],0), size = (10,size[1]), align = 'topright',parent=self)
+        if hscrollbar:
+            self.hslider = Slider(xy = (0,size[1]), size = (size[0],10), align = 'bottomleft',parent=self)
+        
+    def update(self):
+        super(ScrollArea,self).update()
+        self.top_surface.blit(self.surface,(0,0),pygame.Rect(self.position,self.top_surface.get_size()))
+        if self.vslider:
+            self.vslider.update()
+        if self.hslider:
+            self.hslider.update()
