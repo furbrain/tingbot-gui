@@ -1,6 +1,7 @@
 import pygame
 from .widget import Widget
 from ..graphics import _topleft_from_aligned_xy
+from .util import clamp
 
 
 class Slider(Widget):
@@ -42,7 +43,7 @@ class Slider(Widget):
         (w,h) = self.size
         handle_size = self.get_handle_size()
         position = (self.value-self.min_val)/(self.max_val-self.min_val)
-        position = max(min(position,1.0),0.0) #clip to be with max_val and min_val
+        position = clamp(0.0,1.0,position) #clip to be with max_val and min_val
         if self.vertical:
             position = (w/2,int(h-((h-handle_size[1])*position)-handle_size[1]/2))
         else:
@@ -80,8 +81,7 @@ class Slider(Widget):
                 else:
                     pos = float(xy[0]-handle_size[0]/2)/(self.size[0]-handle_size[0])
                 self.value = self.min_val+pos*(self.max_val-self.min_val)
-                self.value = min(self.value,self.max_val)
-                self.value = max(self.value,self.min_val)
+                self.value = clamp(self.min_val,self.max_val,self.value)
                 if self.change_callback:
                     self.change_callback(self.value)
                 self.update()

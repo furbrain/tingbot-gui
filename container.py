@@ -3,6 +3,7 @@ from ..input import HitArea
 from ..graphics import _xy_subtract
 from .widget import Widget
 from .slider import Slider
+from .util import clamp
 
 class Container(Widget):
     """This is a base class for both Panels and ScrollAreas
