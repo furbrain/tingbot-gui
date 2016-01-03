@@ -59,14 +59,20 @@ class ScrollArea(Container):
     def __init__(self,xy,size,align="center",parent=None,canvas_size=None,vscrollbar=False,hscrollbar=False):
         super(ScrollArea,self).__init__(xy,size,align,parent)
         self.top_surface = self.surface
-        self.surface = pygame.Surface(canvas_size,0,self.top_surface)
-        self.position = (0,0)
+        self.position = [0,0]
+        self.max_position = [max(0,canvas_size[0]-size[0]),max(0,canvas_size[1]-size[1])]
+        print size,canvas_size,self.max_position
         self.vslider = None
         self.hslider = None
         if vscrollbar:
-            self.vslider = Slider(xy = (size[0],0), size = (10,size[1]), align = 'topright',parent=self)
+            self.vslider = Slider(xy = (size[0],0), size = (10,size[1]), align = 'topright',parent=self,change_callback=self.vslider_cb)
+            self.vslider.max_val = self.max_position[1]
+            self.vslider.value = self.max_position[1]
         if hscrollbar:
-            self.hslider = Slider(xy = (0,size[1]), size = (size[0],10), align = 'bottomleft',parent=self)
+            self.hslider = Slider(xy = (0,size[1]), size = (size[0],10), align = 'bottomleft',parent=self,change_callback=self.set_x)
+            self.hslider.max_val = self.max_position[0]
+            self.hslider.value = self.max_position[0]
+        self.surface = pygame.Surface(canvas_size,0,self.top_surface)
         
     def update(self):
         super(ScrollArea,self).update()
@@ -75,3 +81,21 @@ class ScrollArea(Container):
             self.vslider.update()
         if self.hslider:
             self.hslider.update()
+           
+    def set_x(self,value):
+        value = clamp(0,self.max_position[0],int(value))
+        self.position
+        if self.hslider:
+            self.hslider = value
+        self.update()
+
+    def set_y(self,value,inverted=False):
+        value = clamp(0,self.max_position[1],int(value))
+        self.position[1] = int(value)
+        if self.vslider:
+            self.slider = value
+        self.update()
+
+    def vslider_cb(self,value):
+        value = self.max_position[1]-value
+        self.set_y(value)
