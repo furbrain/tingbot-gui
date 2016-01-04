@@ -33,10 +33,10 @@ class Button(Widget):
             self.pressed = True
         elif action=="up":
             self.pressed = False
-            if pygame.Rect(self.xy,self.size).collidepoint(xy):
+            if pygame.Rect((0,0),self.size).collidepoint(xy):
                 if self.callback:
                     self.callback()
-        self.draw()
+        self.update()
         
     def draw(self):
         if self.pressed:
