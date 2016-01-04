@@ -15,14 +15,18 @@ class Widget(Surface):
         else:
             self.parent = screen
         self.xy = _topleft_from_aligned_xy(xy,align,size,self.parent.size)
-        self.surface = self.parent.surface.subsurface(pygame.Rect(self.xy,size))
         self.visible = True
+        self.init_size = size
         if hasattr(parent,'touch'):
             parent.touch(self)
         else:
             touch((0,0),size,"topleft",self)(self._touch)
         if hasattr(parent,'register'):
             parent.register(self)
+            
+    def _create_surface(self):
+        print self.parent.surface.get_size(),self.xy,self.init_size
+        return self.parent.surface.subsurface(pygame.Rect(self.xy,self.init_size))
             
     def _touch(self,xy,action):
         if self.visible:
