@@ -1,6 +1,6 @@
 import pygame
 from .widget import Widget
-from ..graphics import _topleft_from_aligned_xy
+from ..graphics import _topleft_from_aligned_xy,_color
 from .util import clamp
 
 
@@ -60,15 +60,15 @@ class Slider(Widget):
             start = (0,h/2)
             end = (w,h/2)
             width = h/5
-        pygame.draw.line(self.surface,(40,40,40),start,end,width)
+        pygame.draw.line(self.surface,_color(self.style.slider_line_color),start,end,width)
         
     def draw_handle(self):
         position = self.get_handle_position()
         size = self.get_handle_size()
-        pygame.draw.circle(self.surface,(200,200,200),position,size[0]/2)
+        pygame.draw.circle(self.surface,_color(self.style.slider_handle_color),position,size[0]/2)
     
     def draw(self):
-        self.fill("black")
+        self.fill(self.style.bg_color)
         self.draw_groove()
         self.draw_handle()
         
