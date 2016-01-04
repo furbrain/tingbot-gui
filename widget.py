@@ -1,19 +1,25 @@
 import pygame
 from ..graphics import Surface,screen,_topleft_from_aligned_xy
 from ..input import touch
+from .style import get_default_style
 
 class Widget(Surface):
-    def __init__(self,xy,size,align="center",parent=None):
+    def __init__(self,xy,size,align="center",parent=None,style=None):
         """Initialise this widget. It creates it's own subsurface for drawing on
         xy, size and align specify the position of the widget
         if this widget will live in a sub-container, such as ScrollArea, specify this with parent
         otherwise it will be attached to the main screen
         xy is relative to the parent widget (or screen)
+        style is an instance of Style to specify the appearance of the widget
         """
         if parent:
             self.parent = parent
         else:
             self.parent = screen
+        if style:
+            self.style = style
+        else:
+            self.style = get_default_style()
         self.xy = _topleft_from_aligned_xy(xy,align,size,self.parent.size)
         self.visible = True
         self.init_size = size

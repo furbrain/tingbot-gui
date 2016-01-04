@@ -9,14 +9,15 @@ class Container(Widget):
     """This is a base class for both Panels and ScrollAreas
     This implements container which can hold and keep track of other widgets and allows you
     to easily draw or hide all contained widgets and also manageds any incoming inputs"""
-    def __init__(self,xy,size,align="center",parent=None):
+    def __init__(self,xy,size,align="center",parent=None,style=None):
         """Initialise this container. It creates it's own subsurface for drawing on
         xy, size and align specify the position of the widget
+        style specifies any look and appearance needed
         if this widget will live in a sub-container, such as ScrollArea, specify this with parent
         otherwise it will be attached to the main screen
         xy is relative to the parent widget (or screen)
         """
-        super(Container,self).__init__(xy,size,align,parent)
+        super(Container,self).__init__(xy,size,align,parent,style)
         self.children = []
         self.hit_areas = []
         self.active_hit_areas = []
@@ -115,10 +116,12 @@ class ViewPort(Container):
         
 
 class ScrollArea(Container):
-    """Use this class to specify a sub-window with (optional) scrollbars"""
+    """Use this class to specify a sub-window with (optional) scrollbars
+    style: specify the style of your sliders
+    canvas_size: specify the size of the underlying window"""
     
-    def __init__(self,xy,size,align="center",parent=None,canvas_size=None):
-        super(ScrollArea,self).__init__(xy,size,align,parent)
+    def __init__(self,xy,size,align="center",parent=None,style = None,canvas_size=None):
+        super(ScrollArea,self).__init__(xy,size,align,parent,style)
         rect = pygame.Rect((0,0),size)
         self.top_surface = self.surface
         self.vslider = None
@@ -133,9 +136,9 @@ class ScrollArea(Container):
             rect.height -= 15
             hscrollbar = True
         if vscrollbar:
-            self.vslider = Slider(xy = rect.topright, size = (15,rect.bottom), align = 'topleft',parent=self)
+            self.vslider = Slider(xy = rect.topright, size = (15,rect.bottom), align = 'topleft',parent=self,style=style)
         if hscrollbar:
-            self.hslider = Slider(xy = rect.bottomleft, size = (rect.right,15), align = 'topleft',parent=self)
+            self.hslider = Slider(xy = rect.bottomleft, size = (rect.right,15), align = 'topleft',parent=self,style=style)
         self.viewport = ViewPort((0,0),rect.bottomright,
                                  align=align,
                                  parent=self,

@@ -11,20 +11,15 @@ class Button(Widget):
         active_color: colour of button while being pressed
         callback: function to call when the button is pressed. No arguments taken
     """
-    def __init__(self, xy, size, align="center", parent=None, but_text="OK", bg_color="blue", text_color="white", active_color="aqua", callback=None):
+    def __init__(self, xy, size, align="center", parent=None, style=None, but_text="OK", callback=None):
         """create a button with size and position specified by xy, size and align
         it will have parent as a containing widget or will be placed directly on screen if parent is None
+        use style to specify button color, activated button color, text color and font
         but_text: text to display on the button
-        bg_color: background color
-        text_color: text color
-        active_color: colour of button while being pressed
         callback: a function to be called when the button is pressed
         """
-        super(Button,self).__init__(xy,size,align,parent)
+        super(Button,self).__init__(xy,size,align,parent,style)
         self.but_text = but_text
-        self.bg_color = bg_color
-        self.text_color = text_color
-        self.active_color = active_color
         self.pressed = False
         self.callback = callback
         
