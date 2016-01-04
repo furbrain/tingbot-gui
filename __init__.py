@@ -1,6 +1,7 @@
 from .button import Button
 from .slider import Slider
 from .container import Panel,ScrollArea
+from .style import Style,get_default_style
 
 __author__ = 'Phil Underwood'
 __email__ = 'beardydoc@gmail.com'
