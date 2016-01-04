@@ -35,4 +35,7 @@ class Button(Widget):
             self.fill(self.style.pressed_button_color)
         else:
             self.fill(self.style.button_color)
-        self.text(self.but_text,color=self.style.button_text_color)
+        self.text(self.but_text,
+                  color=self.style.button_text_color,
+                  font = self.style.button_text_font,
+                  font_size = self.style.button_text_font_size)
