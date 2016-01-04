@@ -2,7 +2,8 @@ defaults = {
     'bg_color'    :'black',
     'button_color':'blue',
     'pressed_button_color':'aqua',
-    'button_text_color':'white'
+    'button_text_color':'white',
+    'scrollbar_width':15,
 }
 
 class Style(object):

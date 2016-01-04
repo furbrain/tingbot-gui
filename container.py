@@ -127,18 +127,18 @@ class ScrollArea(Container):
         self.vslider = None
         self.hslider = None
         if canvas_size[0]>rect.right:
-            rect.height -= 15
+            rect.height -= self.style.scrollbar_width
             hscrollbar = True
         if canvas_size[1]>rect.bottom:
-            rect.width -= 15
+            rect.width -= self.style.scrollbar_width
             vscrollbar = True
         if canvas_size[0]>rect.right and not hscrollbar:
-            rect.height -= 15
+            rect.height -= self.style.scrollbar_width
             hscrollbar = True
         if vscrollbar:
-            self.vslider = Slider(xy = rect.topright, size = (15,rect.bottom), align = 'topleft',parent=self,style=style)
+            self.vslider = Slider(xy = rect.topright, size = (self.style.scrollbar_width,rect.bottom), align = 'topleft',parent=self,style=style)
         if hscrollbar:
-            self.hslider = Slider(xy = rect.bottomleft, size = (rect.right,15), align = 'topleft',parent=self,style=style)
+            self.hslider = Slider(xy = rect.bottomleft, size = (rect.right,self.style.scrollbar_width), align = 'topleft',parent=self,style=style)
         self.viewport = ViewPort((0,0),rect.bottomright,
                                  align=align,
                                  parent=self,
