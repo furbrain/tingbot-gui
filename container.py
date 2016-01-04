@@ -61,17 +61,17 @@ class ScrollArea(Container):
         self.top_surface = self.surface
         self.position = [0,0]
         self.max_position = [max(0,canvas_size[0]-size[0]),max(0,canvas_size[1]-size[1])]
-        print size,canvas_size,self.max_position
         self.vslider = None
         self.hslider = None
+        rect = pygame.Rect(xy,size)
         if vscrollbar:
-            self.vslider = Slider(xy = (size[0],0), size = (10,size[1]), align = 'topright',parent=self,change_callback=self.vslider_cb)
+            self.vslider = Slider(xy = rect.topright, size = (10,size[1]), align = 'topright',parent=parent,change_callback=self.vslider_cb)
             self.vslider.max_val = self.max_position[1]
             self.vslider.value = self.max_position[1]
         if hscrollbar:
-            self.hslider = Slider(xy = (0,size[1]), size = (size[0],10), align = 'bottomleft',parent=self,change_callback=self.set_x)
+            self.hslider = Slider(xy = rect.bottomleft, size = (size[0],10), align = 'bottomleft',parent=parent,change_callback=self.set_x)
             self.hslider.max_val = self.max_position[0]
-            self.hslider.value = self.max_position[0]
+            self.hslider.value = 0
         self.surface = pygame.Surface(canvas_size,0,self.top_surface)
         
     def update(self):
@@ -84,16 +84,16 @@ class ScrollArea(Container):
            
     def set_x(self,value):
         value = clamp(0,self.max_position[0],int(value))
-        self.position
+        self.position[0] = value
         if self.hslider:
-            self.hslider = value
+            self.hslider.value = value
         self.update()
 
     def set_y(self,value,inverted=False):
         value = clamp(0,self.max_position[1],int(value))
         self.position[1] = int(value)
         if self.vslider:
-            self.slider = value
+            self.vslider.value = self.max_position[1]-value
         self.update()
 
     def vslider_cb(self,value):
