@@ -61,45 +61,32 @@ class Panel(Container):
     def draw(self):
         """draw does not need to do anything in Panel"""
         pass
-
-class ScrollArea(Container):
-    """Use this class to specify a sub-window with (optional) scrollbars"""
-    
-    def __init__(self,xy,size,align="center",parent=None,canvas_size=None,vscrollbar=False,hscrollbar=False):
-        super(ScrollArea,self).__init__(xy,size,align,parent)
-        self.top_surface = self.surface
+        
+class VirtualPanel(Panel):
+    """This class implements a virtual panel"""
+    def __init__(self,size,parent):
+        super(VirtualPanel,self).__init__((0,0),size,"topleft",parent)
+        self.init_size = size
+        
+    def _create_surface(self):
+        return pygame.Surface(self.init_size,0,self.parent.surface)
+        
+class ViewPort(Container):
+    """the viewport is a container that only has one child, a VirtualPanel"""
+    def __init__(self,xy,size,align="center",parent = None, canvas_size = None,vslider = None,hslider = None):
+        super(ViewPort,self).__init__(xy,size,align,parent)
+        self.panel = VirtualPanel(canvas_size,self)
         self.position = [0,0]
         self.max_position = [max(0,canvas_size[0]-size[0]),max(0,canvas_size[1]-size[1])]
-        self.vslider = None
-        self.hslider = None
-        rect = pygame.Rect(xy,size)
-        if vscrollbar:
-            self.vslider = Slider(xy = rect.topright, size = (10,size[1]), align = 'topright',parent=parent,change_callback=self.vslider_cb)
-            self.vslider.max_val = self.max_position[1]
-            self.vslider.value = self.max_position[1]
-        if hscrollbar:
-            self.hslider = Slider(xy = rect.bottomleft, size = (size[0],10), align = 'bottomleft',parent=parent,change_callback=self.set_x)
-            self.hslider.max_val = self.max_position[0]
-            self.hslider.value = 0
-        self.surface = pygame.Surface(canvas_size,0,self.top_surface)
-        
-    def update(self,upwards=True,downwards=False):
-        """Call this method to redraw the widget. The widget will only be drawn if visible
-        upwards: set to True to ask any parents (and their parents) to redraw themselves
-        downwards: set to True to make any children  redraw themselves
-        """
-        super(ScrollArea,self).update(upwards,downwards)
+        self.vslider = vslider
+        self.hslider = hslider
         if self.vslider:
-            self.vslider.update(upwards=False)
+            self.vslider.max_val = self.max_position[1]
+            self.vslider.value = self.max_position[0]
+            self.vslider.change_callback = self.vslider_cb
         if self.hslider:
-            self.hslider.update(upwards=False)
-
-    def draw(self):           
-        self.top_surface.blit(self.surface,(0,0),pygame.Rect(self.position,self.top_surface.get_size()))
-
-    def on_touch(self,xy,action):
-        #translate xy positions to account for canvas position
-        super(ScrollArea,self).on_touch(_xy_add(xy,self.position),action)
+            self.hslider.max_val = self.max_position[0]
+            self.hslider.change_callback = self.set_x
 
     def set_x(self,value):
         value = clamp(0,self.max_position[0],int(value))
@@ -117,4 +104,64 @@ class ScrollArea(Container):
 
     def vslider_cb(self,value):
         value = self.max_position[1]-value
-        self.set_y(value)
+        self.set_y(value)    
+
+    def on_touch(self,xy,action):
+        #translate xy positions to account for panel position, and pass on to the panel for processing
+        self.panel.on_touch(_xy_add(xy,self.position),action)
+        
+    def draw(self):           
+        self.surface.blit(self.panel.surface,(0,0),pygame.Rect(self.position,self.size))
+        
+
+class ScrollArea(Container):
+    """Use this class to specify a sub-window with (optional) scrollbars"""
+    
+    def __init__(self,xy,size,align="center",parent=None,canvas_size=None):
+        super(ScrollArea,self).__init__(xy,size,align,parent)
+        rect = pygame.Rect((0,0),size)
+        self.top_surface = self.surface
+        self.vslider = None
+        self.hslider = None
+        if canvas_size[0]>rect.right:
+            rect.height -= 15
+            hscrollbar = True
+        if canvas_size[1]>rect.bottom:
+            rect.width -= 15
+            vscrollbar = True
+        if canvas_size[0]>rect.right and not hscrollbar:
+            rect.height -= 15
+            hscrollbar = True
+        if vscrollbar:
+            self.vslider = Slider(xy = rect.topright, size = (15,rect.bottom), align = 'topleft',parent=self)
+        if hscrollbar:
+            self.hslider = Slider(xy = rect.bottomleft, size = (rect.right,15), align = 'topleft',parent=self)
+        self.viewport = ViewPort((0,0),rect.bottomright,
+                                 align=align,
+                                 parent=self,
+                                 canvas_size=canvas_size,
+                                 vslider = self.vslider,
+                                 hslider = self.hslider)
+        
+    def update(self,upwards=True,downwards=False):
+        """Call this method to redraw the widget. The widget will only be drawn if visible
+        upwards: set to True to ask any parents (and their parents) to redraw themselves
+        downwards: set to True to make any children  redraw themselves
+        """
+        super(ScrollArea,self).update(upwards,downwards)
+        if self.visible:
+            if self.vslider:
+                self.vslider.update(upwards=False)
+            if self.hslider:
+                self.hslider.update(upwards=False)
+
+    def draw(self):
+        #all drawing functions are provided by this classes children
+        pass
+            
+    @property
+    def scrolled_area(self):
+        return self.viewport.panel
+
+
+
