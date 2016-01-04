@@ -6,9 +6,6 @@ class Button(Widget):
     """A button widget
     Attributes:
         but_text: text on the widget
-        bg_color: background color
-        text_color: text color
-        active_color: colour of button while being pressed
         callback: function to call when the button is pressed. No arguments taken
     """
     def __init__(self, xy, size, align="center", parent=None, style=None, but_text="OK", callback=None):
@@ -35,7 +32,7 @@ class Button(Widget):
         
     def draw(self):
         if self.pressed:
-            self.fill(self.active_color)
+            self.fill(self.style.pressed_button_color)
         else:
-            self.fill(self.bg_color)
-        self.text(self.but_text,color=self.text_color)
+            self.fill(self.style.button_color)
+        self.text(self.but_text,color=self.style.button_text_color)

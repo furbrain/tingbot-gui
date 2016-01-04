@@ -1,5 +1,8 @@
 defaults = {
-    'bg_color':"black"
+    'bg_color'    :'black',
+    'button_color':'blue',
+    'pressed_button_color':'aqua',
+    'button_text_color':'white'
 }
 
 class Style(object):
