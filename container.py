@@ -1,6 +1,6 @@
 import pygame
 from ..input import HitArea
-from ..graphics import _xy_subtract
+from ..graphics import _xy_subtract,_xy_add
 from .widget import Widget
 from .slider import Slider
 from .util import clamp
@@ -44,14 +44,23 @@ class Container(Widget):
         if action=='up':
             self.active_hit_areas[:] = []
 
-    def update(self):
+    def update(self,upwards=True,downwards=False):
+        """Call this method to redraw the widget. The widget will only be drawn if visible
+        upwards: set to True to ask any parents (and their parents) to redraw themselves
+        downwards: set to True to make any children  redraw themselves
+        """
         if self.visible:
-            for child in self.children:
-                child.update()
+            if downwards:
+                for child in self.children:
+                    child.update(upwards=False,downwards=True)
+        super(Container,self).update(upwards,downwards)
+            
 
 class Panel(Container):
     """Use this class to specify groups of widgets that can be turned on and off together"""
-    pass
+    def draw(self):
+        """draw does not need to do anything in Panel"""
+        pass
 
 class ScrollArea(Container):
     """Use this class to specify a sub-window with (optional) scrollbars"""
@@ -74,14 +83,24 @@ class ScrollArea(Container):
             self.hslider.value = 0
         self.surface = pygame.Surface(canvas_size,0,self.top_surface)
         
-    def update(self):
-        super(ScrollArea,self).update()
-        self.top_surface.blit(self.surface,(0,0),pygame.Rect(self.position,self.top_surface.get_size()))
+    def update(self,upwards=True,downwards=False):
+        """Call this method to redraw the widget. The widget will only be drawn if visible
+        upwards: set to True to ask any parents (and their parents) to redraw themselves
+        downwards: set to True to make any children  redraw themselves
+        """
+        super(ScrollArea,self).update(upwards,downwards)
         if self.vslider:
-            self.vslider.update()
+            self.vslider.update(upwards=False)
         if self.hslider:
-            self.hslider.update()
-           
+            self.hslider.update(upwards=False)
+
+    def draw(self):           
+        self.top_surface.blit(self.surface,(0,0),pygame.Rect(self.position,self.top_surface.get_size()))
+
+    def on_touch(self,xy,action):
+        #translate xy positions to account for canvas position
+        super(ScrollArea,self).on_touch(_xy_add(xy,self.position),action)
+
     def set_x(self,value):
         value = clamp(0,self.max_position[0],int(value))
         self.position[0] = value

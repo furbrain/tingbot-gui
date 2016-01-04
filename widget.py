@@ -32,11 +32,17 @@ class Widget(Surface):
         """Override this method for any widgets that respond to touch events"""
         pass
         
-    def update(self):
+    def update(self,upwards=True,downwards=False):
         """Call this method to redraw the widget. The widget will only be drawn if visible
-        Do not override it"""
+        upwards: set to True to ask any parents (and their parents) to redraw themselves
+        downwards: set to True to make any children  redraw themselves
+        """
+
         if self.visible:
             self.draw()
+        if upwards:
+            if hasattr(self.parent,'update'):
+                self.parent.update()
         
     def draw(self):
         """Override this method for all derived widgets"""
