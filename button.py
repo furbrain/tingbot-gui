@@ -39,3 +39,21 @@ class Button(Widget):
                   color=self.style.button_text_color,
                   font = self.style.button_text_font,
                   font_size = self.style.button_text_font_size)
+                  
+class ToggleButton(Button):
+    """A button widget
+    Attributes:
+        but_text: text on the widget
+        pressed: whether the button is currently pressed or not
+        callback: function to call when the button is pressed. Passes pressed as an argument
+    """
+    def on_touch(self,xy,action):
+        if action=="down":
+            self.pressed = not self.pressed
+        elif action=="up":
+            if pygame.Rect((0,0),self.size).collidepoint(xy):
+                if self.callback:
+                    self.callback(self.pressed)
+            else:
+                self.pressed = not self.pressed #revert to previous state if touch moves out of the button before release
+        self.update()
