@@ -4,7 +4,7 @@ from ..graphics import _color
 
 
 class Button(Widget):
-    """A button widget
+    """A Button widget
     Attributes:
         but_text: text on the widget
         callback: function to call when the button is pressed. No arguments taken
