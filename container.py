@@ -118,8 +118,13 @@ class ViewPort(Container):
 class ScrollArea(Container):
     """Use this class to specify a sub-window with (optional) scrollbars
     style: specify the style of your sliders
-    canvas_size: specify the size of the underlying window"""
-    
+    canvas_size: specify the size of the underlying window
+
+    Style Attributes:
+        scrollbar_width: width of the scrollbars
+        slider_line_color: color of the line
+        slider_handle_color: color of the handle
+    """    
     def __init__(self,xy,size,align="center",parent=None,style = None,canvas_size=None):
         super(ScrollArea,self).__init__(xy,size,align,parent,style)
         rect = pygame.Rect((0,0),size)
