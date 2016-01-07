@@ -126,6 +126,8 @@ class ScrollArea(Container):
         slider_handle_color: color of the handle
     """    
     def __init__(self,xy,size,align="center",parent=None,style = None,canvas_size=None):
+        if canvas_size == None:
+            raise ValueError("canvas_size must be specified")
         super(ScrollArea,self).__init__(xy,size,align,parent,style)
         rect = pygame.Rect((0,0),size)
         self.top_surface = self.surface
