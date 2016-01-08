@@ -13,6 +13,11 @@ defaults = {
     'checkbox_text_font': None, 
     'checkbox_text_font_size': 16,
     
+    'radiobutton_color':'red', #color of the radiobutton when not pressed
+    'radiobutton_text_color': 'white',
+    'radiobutton_text_font': None, 
+    'radiobutton_text_font_size': 16,
+    
     'scrollbar_width':15,
     
     'slider_line_color':(40,40,40),
