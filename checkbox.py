@@ -6,7 +6,7 @@ from ..graphics import _color
 class CheckBox(Widget):
     """A CheckBox widget
     Attributes:
-        checkbox_text: text on the checkbox
+        label: text on the checkbox
         value: whether checkbox checked or not
         callback: function to be called when the checkbox value changes. Is passed True if checkbox ticked
         
@@ -17,7 +17,7 @@ class CheckBox(Widget):
         checkbox_text_font: font to use (default)
         checkbox_text_font_size: font size to use
     """
-    def __init__(self, xy, size, align="center", parent=None, style=None, checkbox_text="", callback=None):
+    def __init__(self, xy, size, align="center", parent=None, style=None, label="", callback=None):
         """create a button with size and position specified by xy, size and align
         it will have parent as a containing widget or will be placed directly on screen if parent is None
         use style to specify button color, activated button color, text color and font
@@ -25,7 +25,7 @@ class CheckBox(Widget):
         callback: a function to be called when the checkbox value changes. Is passed True if checkbox ticked
         """
         super(CheckBox,self).__init__(xy,size,align,parent,style)
-        self.checkbox_text = checkbox_text
+        self.label = label
         self.value = False
         self.callback = callback
         
@@ -56,7 +56,7 @@ class CheckBox(Widget):
             self.line(box.topleft,box.bottomright,color = self.style.checkbox_color)
             self.line(box.bottomleft,box.topright,color = self.style.checkbox_color)
         
-        self.text(self.checkbox_text,
+        self.text(self.label,
                   xy = box.inflate(6,6).midright,
                   align = 'left',
                   color=self.style.checkbox_text_color,
