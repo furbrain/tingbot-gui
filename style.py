@@ -1,6 +1,11 @@
 defaults = {
     'bg_color'    :'black',
     
+    'statictext_color':'white',
+    'statictext_font': None,
+    'statictext_font_size': 16,
+
+
     'button_color':(0,0,180),
     'button_pressed_color':(0,0,250),
     'button_rounding':10,

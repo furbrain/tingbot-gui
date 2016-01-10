@@ -1,4 +1,5 @@
 from .button import Button,ToggleButton
+from .statictext import StaticText
 from .checkbox import CheckBox
 from .radiobutton import RadioButton,RadioGroup
 from .slider import Slider
