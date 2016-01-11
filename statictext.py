@@ -15,7 +15,7 @@ class StaticText(Widget):
         statictext_font
         statictext_font_size
     """
-    def __init__(self,xy,size,align="center",parent=None,style=None,label="",text_align="centre"):
+    def __init__(self,xy,size,align="center",parent=None,style=None,label="",text_align="center"):
         """create a text widget with size and position specified by xy, size and align
         it will have parent as a containing widget or will be placed directly on screen if parent is None
         use style to specify button color, activated button color, text color and font
@@ -28,7 +28,6 @@ class StaticText(Widget):
         
     def draw(self):
         pos = _xy_from_align(self.text_align,self.size)
-        print pos
         self.fill(self.style.bg_color)
         self.text(self.label, 
                   xy=pos, 
