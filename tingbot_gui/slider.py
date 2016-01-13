@@ -1,6 +1,6 @@
 import pygame
 from .widget import Widget
-from ..graphics import _topleft_from_aligned_xy,_color
+from tingbot.graphics import _topleft_from_aligned_xy,_color
 from .util import clamp
 
 

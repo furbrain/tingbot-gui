@@ -1,6 +1,6 @@
 import pygame
 from .widget import Widget
-from ..graphics import _color
+from tingbot.graphics import _color
 
 
 class Button(Widget):

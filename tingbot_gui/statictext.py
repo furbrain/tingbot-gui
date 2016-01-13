@@ -1,5 +1,5 @@
 from .widget import Widget
-from ..graphics import _xy_from_align
+from tingbot.graphics import _xy_from_align
 
 class StaticText(Widget):
     """ A Text widget.

@@ -15,3 +15,6 @@ docs/_build
 build/
 dist/
 tingbot.egg-info
+
+#my local demo files
+/*demo.py

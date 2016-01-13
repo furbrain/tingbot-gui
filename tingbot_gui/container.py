@@ -1,6 +1,6 @@
 import pygame
-from ..input import HitArea
-from ..graphics import _xy_subtract,_xy_add
+from tingbot.input import HitArea
+from tingbot.graphics import _xy_subtract,_xy_add
 from .widget import Widget
 from .slider import Slider
 from .util import clamp

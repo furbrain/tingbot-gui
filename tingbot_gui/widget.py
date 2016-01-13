@@ -1,6 +1,6 @@
 import pygame
-from ..graphics import Surface,screen,_topleft_from_aligned_xy
-from ..input import touch
+from tingbot.graphics import Surface,screen,_topleft_from_aligned_xy
+from tingbot.input import touch
 from .style import get_default_style
 
 class Widget(Surface):
