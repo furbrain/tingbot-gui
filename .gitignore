@@ -1,0 +1,17 @@
+*.py[cod]
+
+# C extensions
+*.so
+
+# virtualenv
+/env
+
+# Sphinx
+docs/_build
+
+*~
+
+#Build Folders
+build/
+dist/
+tingbot.egg-info
