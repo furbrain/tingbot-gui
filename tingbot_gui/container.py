@@ -161,6 +161,8 @@ class ScrollArea(Container):
         self.top_surface = self.surface
         self.vslider = None
         self.hslider = None
+        vscrollbar = False
+        hscrollbar = False
         if canvas_size[0]>rect.right:
             rect.height -= self.style.scrollbar_width
             hscrollbar = True
