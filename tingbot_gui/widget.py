@@ -1,5 +1,5 @@
 import pygame
-from tingbot.graphics import Surface,screen,_topleft_from_aligned_xy
+from tingbot.graphics import Surface,screen,_topleft_from_aligned_xy,_xy_add
 from tingbot.input import touch
 from .style import get_default_style
 
@@ -50,8 +50,16 @@ class Widget(Surface):
         if upwards:
             if hasattr(self.parent,'update'):
                 self.parent.update()
+        screen.update_needed = True  
+              
         
     def draw(self):
         """Override this method for all derived widgets"""
         raise NotImplementedError
+        
+    def get_abs_position(self):
+        if hasattr(self.parent,'get_abs_position'):
+            return _xy_add(self.parent.get_abs_position(),self.xy)
+        else:
+            return self.xy
         

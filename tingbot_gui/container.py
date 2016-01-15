@@ -94,6 +94,12 @@ class VirtualPanel(Panel):
     def _create_surface(self):
         return pygame.Surface(self.init_size,0,self.parent.surface)
         
+    def get_abs_position(self):
+        if hasattr(self.parent,"position"):
+            return _xy_subtract(self.parent.get_abs_position(),self.parent.position)
+        else:
+            super(VirtualPanel,self).get_abs_position()
+        
 class ViewPort(Container):
     """the viewport is a container that only has one child, a VirtualPanel"""
     def __init__(self,xy,size,align="center",parent = None, canvas_size = None,vslider = None,hslider = None):
