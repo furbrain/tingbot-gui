@@ -8,6 +8,8 @@ from .dropdown import DropDown
 from .container import Panel,get_root_widget
 from .scrollarea import ScrollArea
 from .notebook import NoteBook
+
+from .dialog import MessageBox
 from .style import Style,get_default_style
 
 __author__ = 'Phil Underwood'

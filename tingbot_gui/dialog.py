@@ -1,6 +1,8 @@
 import tingbot
 import pygame
-from .container import Container, get_root_widget
+from .container import Container, get_root_widget, Panel
+from .statictext import StaticText
+from .button import Button
 
 class ModalWindow(Container):
     """A ModalWindow sits on top of the gui and intercepts all events. Useful for alerts, dialog boxes and pop-up menus"""
@@ -55,4 +57,31 @@ class ModalWindow(Container):
         get_root_widget().update(downwards=True)
         if self.callback:
             self.callback(ret_value)
-        
+
+class MessageBox(ModalWindow):
+    """A simple message box for alerting the user"""
+    def __init__(self,xy=None,size=None,align="center",style=None,buttons=None,message="",cancellable=True,callback=None):
+        if xy==None:
+            xy = (160,120)
+        if size==None:
+            size = (280,200)
+        if buttons==None:
+            buttons = ['Ok']
+        super(MessageBox,self).__init__(xy,size,align,style,cancellable,callback)
+        (w,h) = self.size
+        panel = Panel((0,0),(w,h),align="topleft",parent=self)
+        text = StaticText(xy = (w/2,h/4), 
+                          size = (w,h/2),
+                          label=message,
+                          parent=panel)
+        but_size = self.style.messagebox_button_size
+        button_offset = (w-(len(buttons)-1)*(but_size[0]+5))/2
+        for (i,label) in enumerate(buttons):
+            button = Button(xy=(button_offset+i*(but_size[0]+5),h*3/4),
+                            size=but_size,
+                            align="center",
+                            label=label,
+                            parent=panel)
+                            
+            button.callback = lambda label=label: self.close(label)
+        self.update(downwards=True)

@@ -29,6 +29,8 @@ defaults = {
     'slider_handle_color':(200,200,200),
     
     'dropdown_bg_color':(0,0,60),
+    
+    'messagebox_button_size':(75,30)
 }
 
 class Style(object):
