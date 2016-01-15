@@ -6,6 +6,7 @@ from .slider import Slider
 from .container import Panel,ScrollArea
 from .notebook import NoteBook
 from .style import Style,get_default_style
+from .dropdown import DropDown
 
 __author__ = 'Phil Underwood'
 __email__ = 'beardydoc@gmail.com'

@@ -26,7 +26,9 @@ defaults = {
     'scrollbar_width':15,
     
     'slider_line_color':(40,40,40),
-    'slider_handle_color':(200,200,200)
+    'slider_handle_color':(200,200,200),
+    
+    'dropdown_bg_color':(0,0,60),
 }
 
 class Style(object):
