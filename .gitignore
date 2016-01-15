@@ -14,7 +14,7 @@ docs/_build
 #Build Folders
 build/
 dist/
-tingbot.egg-info
+tingbot_gui.egg-info/
 
 #my local demo files
 /*demo.py
