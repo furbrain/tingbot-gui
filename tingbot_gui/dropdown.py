@@ -2,7 +2,7 @@ import pygame.draw
 from tingbot.graphics import _color
 from .button import Button
 from .dialog import ModalWindow
-from .container import ScrollArea
+from .scrollarea import ScrollArea
 
 class DropDown(Button):
     """A widget that displays its current value, and shows a pop-up menu when clicked, allowing the
