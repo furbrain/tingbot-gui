@@ -65,8 +65,7 @@ class Container(Widget):
                     child.update(upwards=False,downwards=True)
             self.draw()
         if upwards:
-            if hasattr(self.parent,'update'):
-                self.parent.update()
+            self.parent.update()
             
 
 class Panel(Container):
@@ -84,11 +83,35 @@ class Panel(Container):
             self.fill(self.style.bg_color)
         super(Panel,self).update(upwards,downwards)
         
+class RootWidget(Container):
+    def __init__(self):
+        self.children = []
+        self.hit_areas = []
+        self.active_hit_areas = []
+        self.xy=(0,0)
+        self.init_size=(320,240)
+        self.visible=True
+        self.style = get_default_style()
+        touch((0,0),(320,240),"topleft",self)(self._touch)
         
     def _create_surface(self):
+        return screen.surface
 
+    def draw(self):
+        pass      
         
+    def update(self, upwards=True, downwards=False):
         if self.visible:
+            if downwards:
+                for child in self.children:
+                    child.update(upwards=False,downwards=True)
+            self.draw()
 
+    def get_abs_position(self):
+        return (0,0)
+                  
+root = RootWidget()
 
+def get_root_widget():
+    return root
 

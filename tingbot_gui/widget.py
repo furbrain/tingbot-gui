@@ -1,6 +1,5 @@
 import pygame
 from tingbot.graphics import Surface,screen,_topleft_from_aligned_xy,_xy_add
-from tingbot.input import touch
 from .style import get_default_style
 
 class Widget(Surface):
@@ -15,7 +14,8 @@ class Widget(Surface):
         if parent:
             self.parent = parent
         else:
-            self.parent = screen
+            from .container import get_root_widget
+            self.parent = get_root_widget()
         if style:
             self.style = style
         else:
@@ -23,10 +23,7 @@ class Widget(Surface):
         self.xy = _topleft_from_aligned_xy(xy,align,size,self.parent.size)
         self.visible = True
         self.init_size = size
-        if hasattr(parent,'add_child'):
-            parent.add_child(self)
-        else:
-            touch((0,0),size,"topleft",self)(self._touch)
+        self.parent.add_child(self)
             
     def _create_surface(self):
         return self.parent.surface.subsurface(pygame.Rect(self.xy,self.init_size))
@@ -48,9 +45,8 @@ class Widget(Surface):
         if self.visible:
             self.draw()
         if upwards:
-            if hasattr(self.parent,'update'):
-                self.parent.update()
-        screen.update_needed = True  
+            self.parent.update()
+        screen.needs_update = True  
               
         
     def draw(self):
@@ -58,8 +54,5 @@ class Widget(Surface):
         raise NotImplementedError
         
     def get_abs_position(self):
-        if hasattr(self.parent,'get_abs_position'):
-            return _xy_add(self.parent.get_abs_position(),self.xy)
-        else:
-            return self.xy
+        return _xy_add(self.parent.get_abs_position(),self.xy)
         

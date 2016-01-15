@@ -1,6 +1,6 @@
 import tingbot
 import pygame
-from .container import Container
+from .container import Container, get_root_widget
 
 class ModalWindow(Container):
     """A ModalWindow sits on top of the gui and intercepts all events. Useful for alerts, dialog boxes and pop-up menus"""
@@ -52,7 +52,7 @@ class ModalWindow(Container):
         """Close this modal window and return ret_value"""
         tingbot.input.unset_modal_handler()
         self.visible = False
-        tingbot.screen.surface.fill((128,128,128),special_flags=pygame.BLEND_RGBA_ADD)
+        get_root_widget().update(downwards=True)
         if self.callback:
             self.callback(ret_value)
         
