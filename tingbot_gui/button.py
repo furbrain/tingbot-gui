@@ -35,12 +35,17 @@ class Button(Widget):
             self.pressed = True
         elif action=="up":
             self.pressed = False
-            if pygame.Rect((0,0),self.size).collidepoint(xy):
-                if self.callback:
-                    self.callback()
         self.update()
+        if action=="up":
+            if pygame.Rect((0,0),self.size).collidepoint(xy):
+                self.on_click()
         
-    def draw(self):
+    def on_click(self):    
+        """function called whenever button is clicked. Can be overriden in sub-classes"""
+        if self.callback:
+            self.callback()
+        
+    def draw_button(self):    
         (w,h) = self.size
         if self.pressed:
             color = self.style.button_pressed_color
@@ -56,6 +61,8 @@ class Button(Widget):
         for pos in coords:
             pygame.draw.circle(self.surface,_color(color),pos,rounding)
         
+    def draw(self):
+        self.draw_button()
         self.text(self.label,
                   color=self.style.button_text_color,
                   font = self.style.button_text_font,
