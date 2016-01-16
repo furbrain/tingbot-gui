@@ -30,7 +30,9 @@ defaults = {
     
     'dropdown_bg_color':(0,0,60),
     
-    'messagebox_button_size':(75,30)
+    'messagebox_button_size':(75,30),
+    
+    'popupmenu_button_size':(140,30),
 }
 
 class Style(object):

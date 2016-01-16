@@ -3,6 +3,7 @@ from tingbot.graphics import _color
 from .button import Button
 from .dialog import ModalWindow
 from .scrollarea import ScrollArea
+from .popupmenu import PopupButton
 
 class DropDown(Button):
     """A widget that displays its current value, and shows a pop-up menu when clicked, allowing the
@@ -64,7 +65,7 @@ class DropDown(Button):
         scroller = ScrollArea((0,0),size,align="topleft",style=self.style,parent=self.dlg,canvas_size=list_size)
         
         for i in range(len(self.values)):
-            button = DropDownButton((0,i*h),(w,h),align="topleft",
+            button = PopupButton((0,i*h),(w,h),align="topleft",
                                     style=self.style,
                                     label=self.values[i][0],
                                     parent=scroller.scrolled_area,
@@ -81,17 +82,4 @@ class DropDown(Button):
         if self.callback:
             self.callback()
         
-class DropDownButton(Button):
-    """A button specialised for use in dropdown menus"""
-    def draw(self):
-        if self.pressed:
-            self.fill(self.style.button_pressed_color)
-        else:
-            self.fill(self.style.dropdown_bg_color)
-        self.text(self.label,
-                  xy = (5,self.size[1]/2),
-                  align = "left",  
-                  color=self.style.button_text_color,
-                  font = self.style.button_text_font,
-                  font_size = self.style.button_text_font_size)
-        
+

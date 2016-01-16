@@ -10,6 +10,7 @@ from .scrollarea import ScrollArea
 from .notebook import NoteBook
 
 from .dialog import MessageBox
+from .popupmenu import PopupMenu
 from .style import Style,get_default_style
 
 __author__ = 'Phil Underwood'
