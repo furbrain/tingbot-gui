@@ -7,10 +7,25 @@ from .style import get_default_style
 
 class PopupMenu(ModalWindow):
 
-    """A popupmenu"""
+    """A popupmenu that is displayed on top of the screen"""
 
     def __init__(self, xy, style=None, cancellable=True,  
                  menu_items=None, button_size=None):
+        """Create a popupmenu with its top left at position xy
+        style specifies the style of the object (default style if None)
+        If cancellable is true then the menu can be dismissed by 
+            clicking outside of it.
+        menu_items is a list of the form [(label,callback)...]
+            callback takes no arguments
+        button_size is the size for each menu_item (as per style if not
+            specified.
+        
+        If the menu is too big to it on the screen at xy, it will
+        be moved so that it does fit. If it is too big to fit on
+        the screen at any position it will be given appropriate
+        scroll bars
+        """
+ 
         if style is None:
             style = get_default_style()
         if button_size == None:
