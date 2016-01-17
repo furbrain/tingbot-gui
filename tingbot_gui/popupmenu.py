@@ -33,15 +33,11 @@ class PopupMenu(ModalWindow):
         list_size = (button_size[0], button_size[1] * len(menu_items))
         #make sure popupmenu is completely within screen area
         menu_window = pygame.Rect(xy,list_size)
-        print menu_window
         if list_size[1]>240:
             menu_window.width += style.scrollbar_width
-        print menu_window
         
         menu_window.clamp_ip((0,0),(320,240))
-        print menu_window
         menu_window = menu_window.clip((0,0),(320,240))
-        print menu_window
         
         super(PopupMenu, self).__init__(xy=menu_window.topleft, 
                                         size=menu_window.size, 
