@@ -56,3 +56,11 @@ class Widget(Surface):
 
     def get_abs_position(self):
         return _xy_add(self.parent.get_abs_position(), self.xy)
+        
+    @property
+    def rect(self):
+        return pygame.Rect(self.xy,self.init_size)
+        
+    def resurface(self,surface):
+        """attach this widget to a new surface (used when a virtual panel changes size)"""
+        self.surface = surface.subsurface(self.rect)
