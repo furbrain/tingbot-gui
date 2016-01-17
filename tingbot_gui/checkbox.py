@@ -21,9 +21,9 @@ class CheckBox(Widget):
 
     def __init__(self, xy, size, align="center",
                  parent=None, style=None, label="", callback=None):
-        """create a button with size and position specified by xy, size and align
+        """create a checkbox with size and position specified by xy, size and align
         it will have parent as a containing widget or will be placed directly on screen if parent is None
-        use style to specify button color, activated button color, text color and font
+        use style to specify it's appearance
         text: text to display on the checkbox
         callback: a function to be called when the checkbox value changes. Is passed True if checkbox ticked
         """

@@ -401,7 +401,8 @@ two checkboxes and three radio buttons
 .. code-block:: python    
     :caption: Example: Full worked example
     
-    from tingbot import screen,gui,run
+    from tingbot import screen,run
+    import tingbot_gui as gui
 
         
     def loop():

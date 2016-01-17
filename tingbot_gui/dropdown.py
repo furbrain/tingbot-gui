@@ -9,11 +9,28 @@ from .popupmenu import PopupButton
 class DropDown(Button):
 
     """A widget that displays its current value, and shows a pop-up menu when clicked, allowing the
-    useer to select a new value from a preset list"""
-
+    useer to select a new value from a preset list
+    
+    Attributes:
+        values: a list of (label,data), one for each menu item
+        selected: currently selected menu item as a tuple (label,data)
+        callback: callback is a function to be called when the selected
+            item is changed. It is passed two arguments label and data.
+            The label is the new label for the control and data is any
+            associated data (if no data was passed in the constructor,
+            then data will be None)
+            
+    Style Attributes:
+        bg_color
+        button_color
+        button_pressed_color
+        button_text_color
+        button_text_font
+        button_text_font_size
+        popup_bg_color
+    """    
     def __init__(self, xy, size, align="center",
                  parent=None, style=None, values=None, callback=None):
-        """ Creates a dropdown with preselected values"""
         super(
             DropDown,
             self).__init__(
@@ -24,6 +41,13 @@ class DropDown(Button):
             style,
             '',
             callback)
+        """ create a DropDown control with size and position specified by xy, size and align
+        it will have parent as a containing widget or will be placed directly on screen if parent is None
+        use style to specify it's appearance
+        values is a list of labels with optional associated data items
+        callback is a function to be called when the selected item is changed. It is passed two arguments
+            label and data. The label is the new label for the control and data is any associated data
+            (if no data was passed in the constructor, then data will be None) """
         self.values = []
         for value in values:
             if isinstance(value, basestring):
