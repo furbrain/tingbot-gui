@@ -52,7 +52,7 @@ class ModalWindow(Container):
         
     def close(self,ret_value=None):
         """Close this modal window and return ret_value"""
-        tingbot.input.unset_modal_handler()
+        tingbot.input.unset_modal_handler(self.event_handler)
         self.visible = False
         get_root_widget().update(downwards=True)
         if self.callback:
