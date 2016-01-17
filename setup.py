@@ -14,9 +14,8 @@ setup(name='tingbot-gui',
       author_email='beardydoc@gmail.com',
       license='BSD',
       packages=['tingbot_gui'],
-      package_dir={'tingbot_gui':'tingbot_gui'},
+      package_dir={'tingbot_gui': 'tingbot_gui'},
       install_requires=['tingbot'],
       dependency_links=['https://github.com/tingbot/tingbot-python/tarball/master'],
       zip_safe=False,
       keywords='tingbot',)
-
