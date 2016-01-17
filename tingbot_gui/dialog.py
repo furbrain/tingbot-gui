@@ -23,6 +23,8 @@ class ModalWindow(Container):
         tingbot.input.set_modal_handler(self.event_handler)
         # FIXME###
         # set root widget to invisible
+        #make copy of screen
+        self.screen_copy = tingbot.screen.surface.copy()
         # grey out whole screen
         tingbot.screen.surface.fill(
             (128, 128, 128), special_flags=pygame.BLEND_RGBA_SUB)
@@ -60,6 +62,8 @@ class ModalWindow(Container):
         """Close this modal window and return ret_value"""
         tingbot.input.unset_modal_handler(self.event_handler)
         self.visible = False
+        #restore old appearance of screen
+        tingbot.screen.surface.blit(self.screen_copy,(0,0))
         get_root_widget().update(downwards=True)
         if self.callback:
             self.callback(ret_value)
