@@ -38,7 +38,7 @@ class ViewPort(Container):
         self.hslider = hslider
         if self.vslider:
             self.vslider.max_val = self.max_position[1]
-            self.vslider.value = self.max_position[0]
+            self.vslider.value = self.max_position[1]
             self.vslider.change_callback = self.vslider_cb
         if self.hslider:
             self.hslider.max_val = self.max_position[0]
