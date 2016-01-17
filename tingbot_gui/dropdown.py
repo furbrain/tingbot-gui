@@ -1,9 +1,7 @@
 import pygame.draw
 from tingbot.graphics import _color
 from .button import Button
-from .dialog import ModalWindow
-from .scrollarea import ScrollArea
-from .popupmenu import PopupButton
+from .popupmenu import PopupMenu
 
 
 class DropDown(Button):
@@ -31,16 +29,6 @@ class DropDown(Button):
     """    
     def __init__(self, xy, size, align="center",
                  parent=None, style=None, values=None, callback=None):
-        super(
-            DropDown,
-            self).__init__(
-            xy,
-            size,
-            align,
-            parent,
-            style,
-            '',
-            callback)
         """ create a DropDown control with size and position specified by xy, size and align
         it will have parent as a containing widget or will be placed directly on screen if parent is None
         use style to specify it's appearance
@@ -48,36 +36,34 @@ class DropDown(Button):
         callback is a function to be called when the selected item is changed. It is passed two arguments
             label and data. The label is the new label for the control and data is any associated data
             (if no data was passed in the constructor, then data will be None) """
+        super(DropDown, self).__init__(xy, size, align, parent,
+                                       style, '', callback)
         self.values = []
         for value in values:
             if isinstance(value, basestring):
-                self.values.append((value, value))
+                self.values.append((value, None))
             elif hasattr(value, "__getitem__"):
                 self.values.append(value)
             else:
-                self.values.append((value, value))
-
+                self.values.append((value, None))
         self.selected = self.values[0]
 
     def draw(self):
         (w, h) = self.size
         self.draw_button()
-
         self.text(self.selected[0],
                   xy=(5, h / 2),
-                  align = "left",
+                  align="left",
                   color=self.style.button_text_color,
-                  font = self.style.button_text_font,
-                  font_size = self.style.button_text_font_size)
+                  font=self.style.button_text_font,
+                  font_size=self.style.button_text_font_size)
         triangle_size = self.style.button_text_font_size / 2
-        triangle_points = ((w - 5, (h - triangle_size) / 2),
-                           (w - 5 - (triangle_size / 2), (
-                               h + triangle_size) / 2),
-                           (w - 5 - triangle_size, (h - triangle_size) / 2))
-        pygame.draw.polygon(
-            self.surface,
-            _color(self.style.button_text_color),
-            triangle_points)
+        triangle_points = ((w-5, (h-triangle_size) / 2),
+                           (w - 5 - triangle_size/2, (h+triangle_size) / 2),
+                           (w - 5 - triangle_size, (h-triangle_size) / 2))
+        pygame.draw.polygon(self.surface,
+                            _color(self.style.button_text_color),
+                            triangle_points)
 
     def make_cb(self, dlg, label, value):
         # make a callback to attach to a button
@@ -87,47 +73,15 @@ class DropDown(Button):
 
     def on_click(self):
         # calculate size of dropdown and size of canvas needed
-        (w, h) = self.size
-        (x, y) = self.get_abs_position()
-        list_size = (w, h * len(self.values))
-        if list_size[1] > 240:
-            pos = (x, 0)
-            size = (min(320, w + self.style.scrollbar_width), 240)
-        elif list_size[1] > (240 - y):
-            pos = (x, 240 - list_size[1])
-            size = list_size
-        else:
-            pos = (x, y)
-            size = list_size
+        items = [(label, self.make_cb(label,value)) for label,value in self.values]
+        menu = PopupMenu(self.get_abs_position(), style=self.style, menu_items=items, button_size=self.size)
 
-        self.dlg = ModalWindow(
-            pos,
-            size,
-            align="topleft",
-            style=self.style,
-            callback=self.value_selected)
-        scroller = ScrollArea(
-            (0,
-             0),
-            size,
-            align="topleft",
-            style=self.style,
-            parent=self.dlg,
-            canvas_size=list_size)
-
-        for i in range(len(self.values)):
-            button = PopupButton((0, i * h), (w, h), align="topleft",
-                                 style=self.style,
-                                 label=self.values[i][0],
-                                 parent=scroller.scrolled_area,
-                                 callback=self.make_cb(self.dlg, self.values[i][0], self.values[i][1]))
-        self.dlg.update(downwards=True, upwards=False)
-        self.dlg.update()
+    def make_cb(self,label,value):
+        return lambda: self.value_selected((label,value))
 
     def value_selected(self, value_pair):
         if value_pair:
             self.selected = value_pair
-        del self.dlg
         self.update()
         if self.callback:
-            self.callback()
+            self.callback(value_pair[0],value_pair[1])
