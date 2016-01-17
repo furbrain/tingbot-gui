@@ -71,7 +71,19 @@ class Container(Widget):
             self.draw()
         if upwards:
             self.parent.update()
-
+            
+    def resize(self,size):
+        """resize this container to the specified size
+        will raise an error if this would cut off any child widgets"""
+        #check we can safely resize...
+        child_rects = [x.rect for x in self.children]
+        all_widgets = pygame.Rect(0,0,0,0).unionall(child_rects)
+        if not pygame.Rect((0,0),size).contains(all_widgets):
+            raise ValueError("resized container would be smaller than child widgets"+repr(size)+repr(all_widgets))
+        self.init_size = size
+        self.surface = self._create_surface()
+        for child in self.children:
+            child.resurface(self.surface)
 
 class Panel(Container):
 

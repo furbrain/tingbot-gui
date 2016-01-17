@@ -27,13 +27,14 @@ class ViewPort(Container):
 
     """the viewport is a container that only has one child, a VirtualPanel"""
 
-    def __init__(self, xy, size, align="center", parent=None,
+    def __init__(self, xy, size, align="center", parent=None, style=None,
                  canvas_size=None, vslider=None, hslider=None):
-        super(ViewPort, self).__init__(xy, size, align, parent)
+        super(ViewPort, self).__init__(xy, size, align, parent, style)
         self.panel = VirtualPanel(canvas_size, self)
-        self.position = [0, 0]
-        self.max_position = [
-            max(0, canvas_size[0] - size[0]), max(0, canvas_size[1] - size[1])]
+        self.resize_canvas(canvas_size)
+        self.set_sliders(vslider,hslider)
+            
+    def set_sliders(self, vslider, hslider):
         self.vslider = vslider
         self.hslider = hslider
         if self.vslider:
@@ -44,6 +45,12 @@ class ViewPort(Container):
             self.hslider.max_val = self.max_position[0]
             self.hslider.change_callback = self.set_x
 
+    def resize_canvas(self,canvas_size):
+        self.position = [0, 0]
+        self.max_position = [
+            max(0, canvas_size[0] - self.init_size[0]), max(0, canvas_size[1] - self.init_size[1])]
+        self.panel.resize(canvas_size)
+    
     def set_x(self, value):
         value = clamp(0, self.max_position[0], int(value))
         self.position[0] = value
@@ -68,9 +75,15 @@ class ViewPort(Container):
         self.panel.on_touch(_xy_add(xy, self.position), action)
 
     def draw(self):
+        self.fill(self.style.bg_color)
         self.surface.blit(self.panel.surface, (
             0, 0), pygame.Rect(self.position, self.size))
 
+    def resize(self,size):
+        """resize this container to the specified size"""
+        self.init_size = size
+        self.surface = self._create_surface()
+             
 
 class ScrollArea(Container):
 
@@ -89,10 +102,20 @@ class ScrollArea(Container):
         if canvas_size is None:
             raise ValueError("canvas_size must be specified")
         super(ScrollArea, self).__init__(xy, size, align, parent, style)
-        rect = pygame.Rect((0, 0), size)
-        self.top_surface = self.surface
         self.vslider = None
         self.hslider = None
+        self.viewport = ViewPort((0, 0), size,
+                                 align=align,
+                                 parent=self,
+                                 style=self.style,
+                                 canvas_size=canvas_size,
+                                 vslider=self.vslider,
+                                 hslider=self.hslider)
+        self.resize_canvas(canvas_size)
+
+    def resize_canvas(self, canvas_size):
+        """creates vertical and horizontal sliders if needed"""
+        rect = pygame.Rect((0, 0), self.size)
         vscrollbar = False
         hscrollbar = False
         if canvas_size[0] > rect.right:
@@ -104,7 +127,7 @@ class ScrollArea(Container):
         if canvas_size[0] > rect.right and not hscrollbar:
             rect.height -= self.style.scrollbar_width
             hscrollbar = True
-        if vscrollbar:
+        if vscrollbar and not self.vslider:
             self.vslider = Slider(
                 xy=rect.topright,
                 size=(
@@ -112,22 +135,26 @@ class ScrollArea(Container):
                     rect.bottom),
                 align = 'topleft',
                 parent=self,
-                style=style)
-        if hscrollbar:
+                style=self.style)
+        elif self.vslider and not vscrollbar:
+            self.remove_child(self.vslider)
+            self.vslider = None
+        if hscrollbar and not self.hslider:
             self.hslider = Slider(
                 xy=rect.bottomleft,
                 size=(rect.right,
                       self.style.scrollbar_width),
                 align = 'topleft',
                 parent=self,
-                style=style)
-        self.viewport = ViewPort((0, 0), rect.bottomright,
-                                 align=align,
-                                 parent=self,
-                                 canvas_size=canvas_size,
-                                 vslider=self.vslider,
-                                 hslider=self.hslider)
-
+                style=self.style)
+        elif self.hslider and not hscrollbar:
+            self.remove_child(self.hslider)
+            self.hslider = None
+        self.viewport.resize(rect.size)
+        self.viewport.resize_canvas(canvas_size)
+        self.viewport.set_sliders(self.vslider,self.hslider)
+        self.update(downwards=True)
+        
     def update(self, upwards=True, downwards=False):
         """Call this method to redraw the widget. The widget will only be drawn if visible
         upwards: set to True to ask any parents (and their parents) to redraw themselves
