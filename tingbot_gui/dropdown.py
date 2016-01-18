@@ -51,13 +51,14 @@ class DropDown(Button):
     def draw(self):
         (w, h) = self.size
         self.draw_button()
+        triangle_size = self.style.button_text_font_size / 2
         self.text(self.selected[0],
                   xy=(5, h / 2),
+                  size = (w-10-triangle_size,h),
                   align="left",
                   color=self.style.button_text_color,
                   font=self.style.button_text_font,
                   font_size=self.style.button_text_font_size)
-        triangle_size = self.style.button_text_font_size / 2
         triangle_points = ((w-5, (h-triangle_size) / 2),
                            (w - 5 - triangle_size/2, (h+triangle_size) / 2),
                            (w - 5 - triangle_size, (h-triangle_size) / 2))

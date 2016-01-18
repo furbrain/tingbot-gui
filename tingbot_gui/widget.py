@@ -1,5 +1,5 @@
 import pygame
-from tingbot.graphics import Surface, screen, _topleft_from_aligned_xy, _xy_add
+from tingbot.graphics import Surface, Image, screen, _topleft_from_aligned_xy, _xy_add, _font, _color
 from .style import get_default_style
 
 
@@ -60,7 +60,36 @@ class Widget(Surface):
     @property
     def rect(self):
         return pygame.Rect(self.xy,self.init_size)
+    
+    def basic_rect(self):
+        return pygame.Rect((0,0),self.init_size)
         
     def resurface(self,surface):
         """attach this widget to a new surface (used when a virtual panel changes size)"""
         self.surface = surface.subsurface(self.rect)
+        
+    def text(self, string, xy=None, size=None, color='grey', align='center', font=None, font_size=32, antialias=None):
+        """render text to a specific area, will adjust font size to try and fit text into specified size"""
+        string = unicode(string)
+        if size is None:
+            size = self.size
+        if antialias is None:
+            antialias
+
+        for x in reversed(range(font_size*3/4,font_size)):
+            font_obj, antialias= _font(font, x, antialias)
+            rendered_size = font_obj.size(string)
+            if (size[0]>rendered_size[0]) and (size[1]>rendered_size[1]):
+                break
+        else: # no break
+            # couldn't fit with just font size shrinking. Try clipping and put an ellipsis on the end
+            for x in range(3,len(string)):
+                temp_string = string[:-x]+u'...'
+                rendered_size = font_obj.size(temp_string)
+                if (size[0]>rendered_size[0]): #success!
+                    string = temp_string
+                    break
+        text_image = Image(surface=font_obj.render(string, antialias, _color(color)))
+
+        self.image(text_image, xy, align=align)
+
