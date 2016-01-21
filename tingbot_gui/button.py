@@ -1,7 +1,9 @@
 import pygame
+from functools import partial
+
 from .widget import Widget
 from tingbot.graphics import _color
-
+from tingbot import once
 
 class Button(Widget):
 
@@ -21,32 +23,54 @@ class Button(Widget):
     """
 
     def __init__(self, xy, size, align="center",
-                 parent=None, style=None, label="OK", callback=None):
+                 parent=None, style=None, label="OK", callback=None, long_click_callback=None):
         """create a button with size and position specified by xy, size and align
         it will have parent as a containing widget or will be placed directly on screen if parent is None
         use style to specify button color, activated button color, text color and font
         label: text to display on the button
         callback: a function to be called when the button is pressed
+        long_click_callback: a function to be called when the button has been pressed for more than 1.5s
         """
         super(Button, self).__init__(xy, size, align, parent, style)
         self.label = label
         self.pressed = False
         self.callback = callback
+        self.click_count = 0
 
     def on_touch(self, xy, action):
         if action == "down":
             self.pressed = True
-        elif action == "up":
+            if self.long_click_callback:
+                once(seconds=1.5)(partial(self._long_click,self.click_count))
+            self.update()
+        elif action == "up" and self.pressed:
+            self.click_count += 1
             self.pressed = False
-        self.update()
-        if action == "up":
-            if pygame.Rect((0, 0), self.size).collidepoint(xy):
+            if self.local_rect.collidepoint(xy):
                 self.on_click()
+            self.update()
+        if action == "move":
+            if not self.local_rect.collidepoint(xy):
+                self.click_count += 1
+                
+    def _long_click(self,click_count):
+        print click_count,self.click_count
+        if self.click_count==click_count:
+            # we have been pressed for 1.5 seconds 
+            # without a move outside of our box or a button release
+            self.on_long_click()
 
     def on_click(self):
         """function called whenever button is clicked. Can be overriden in sub-classes"""
         if self.callback:
             self.callback()
+            
+    def on_long_click(self):
+        """function called whenever button is long_clicked. Can be overriden in sub-classes"""
+        if self.long_click_callback:
+            self.pressed=False
+            self.update()
+            self.long_click_callback()
 
     def draw_button(self):
         (w, h) = self.size
