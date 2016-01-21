@@ -1,3 +1,5 @@
+import copy
+
 defaults = {
     'bg_color': 'black',
 
@@ -49,6 +51,8 @@ class Style(object):
                     "__init__() got an unexpected keyword argument '%s'" %
                     arg)
 
+    def copy(self):
+        return copy.copy(self)
 default_style = Style()
 
 
