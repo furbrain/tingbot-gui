@@ -41,21 +41,20 @@ class Button(Widget):
     def on_touch(self, xy, action):
         if action == "down":
             self.pressed = True
+            self.update()
             if self.long_click_callback:
                 once(seconds=1.5)(partial(self._long_click,self.click_count))
-            self.update()
         elif action == "up" and self.pressed:
             self.click_count += 1
             self.pressed = False
+            self.update()
             if self.local_rect.collidepoint(xy):
                 self.on_click()
-            self.update()
         if action == "move":
             if not self.local_rect.collidepoint(xy):
                 self.click_count += 1
                 
     def _long_click(self,click_count):
-        print click_count,self.click_count
         if self.click_count==click_count:
             # we have been pressed for 1.5 seconds 
             # without a move outside of our box or a button release
