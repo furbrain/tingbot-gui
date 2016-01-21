@@ -1,3 +1,4 @@
+from functools import partial
 import pygame
 from .dialog import ModalWindow
 from .scrollarea import ScrollArea
@@ -60,11 +61,8 @@ class PopupMenu(ModalWindow):
                 parent = scroller.scrolled_area,
                 style = self.style,
                 label = label,
-                callback = self.make_callback(label, item_callback))
+                callback = partial(self.button_press,label, item_callback))
         self.update(downwards=True)
-
-    def make_callback(self, label, callback):
-        return lambda: self.button_press(label, callback)
 
     def button_press(self, label, item_callback):
         self.close()

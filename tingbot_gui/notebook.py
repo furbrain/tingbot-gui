@@ -1,3 +1,5 @@
+from functools import partial
+
 class NoteBook(object):
 
     """A NoteBook container - this uses a series of toggle button that allows the user
@@ -39,12 +41,9 @@ class NoteBook(object):
 
         # set button callbacks
         for button, widget in pairs:
-            self.bind_button(button)
+            button.callback = partial(self.button_pressed,button)
 
-    def bind_button(self, button):
-        button.callback = lambda x: self.button_pressed(button)
-
-    def button_pressed(self, button):
+    def button_pressed(self, button, dummy):
         self.selected = button
 
     @property

@@ -1,3 +1,5 @@
+from functools import partial
+
 import pygame.draw
 from tingbot.graphics import _color
 from .button import Button
@@ -66,19 +68,11 @@ class DropDown(Button):
                             _color(self.style.button_text_color),
                             triangle_points)
 
-    def make_cb(self, dlg, label, value):
-        # make a callback to attach to a button
-        def cb():
-            return dlg.close((label, value))
-        return cb
 
     def on_click(self):
         # calculate size of dropdown and size of canvas needed
-        items = [(label, self.make_cb(label,value)) for label,value in self.values]
+        items = [(label, partial(self.value_selected,(label,value))) for label,value in self.values]
         menu = PopupMenu(self.get_abs_position(), style=self.style, menu_items=items, button_size=self.size)
-
-    def make_cb(self,label,value):
-        return lambda: self.value_selected((label,value))
 
     def value_selected(self, value_pair):
         if value_pair:

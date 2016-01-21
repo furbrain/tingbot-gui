@@ -1,3 +1,5 @@
+from functools import partial
+
 import tingbot
 import pygame
 from .container import Container, get_root_widget, Panel
@@ -99,5 +101,5 @@ class MessageBox(ModalWindow):
                 label=label,
                 parent=panel)
 
-            button.callback = lambda label=label: self.close(label)
+            button.callback = partial(self.close,label)
         self.update(downwards=True)
