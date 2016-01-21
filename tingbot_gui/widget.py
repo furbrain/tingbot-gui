@@ -61,7 +61,8 @@ class Widget(Surface):
     def rect(self):
         return pygame.Rect(self.xy,self.init_size)
     
-    def basic_rect(self):
+    @property
+    def local_rect(self):
         return pygame.Rect((0,0),self.init_size)
         
     def resurface(self,surface):
