@@ -35,6 +35,7 @@ class Button(Widget):
         self.label = label
         self.pressed = False
         self.callback = callback
+        self.long_click_callback=long_click_callback
         self.click_count = 0
 
     def on_touch(self, xy, action):
