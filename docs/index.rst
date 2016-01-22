@@ -11,7 +11,19 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   gui
+   widgets
+   containers
+   dialogs
+   style
+   callbacks
+   
+   
+Graphical user interface
+========================
+
+:mod:`tingbot.gui` -- Graphical user interface for tingbot
+
+
 
 Indices and tables
 ==================
