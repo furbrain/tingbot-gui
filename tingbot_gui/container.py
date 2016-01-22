@@ -113,7 +113,7 @@ class RootWidget(Container):
         self.init_size = (320, 240)
         self.visible = True
         self.style = get_default_style()
-        touch((0, 0), (320, 240), "topleft", self)(self._touch)
+        touch((0, 0), (320, 240), "topleft")(self._touch)
 
     def _create_surface(self):
         return screen.surface
