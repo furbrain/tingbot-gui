@@ -50,4 +50,8 @@ on the screen otherwise.
     :Attributes:
         - *scrolled_area* -- Use this as the parent for any widgets you wish to place within this container
  
+    :Style Attributes:
+        - *scrollbar_width* -- width of the scrollbars
+        - *slider_line_color* -- color of the line
+        - *slider_handle_color* -- color of the handle
 

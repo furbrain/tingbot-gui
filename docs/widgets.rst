@@ -38,7 +38,7 @@ There are several different elements that can be used in an interface, known as 
         Called when the widget needs to draw itself. Override this method for all derived widgets    
         
         
-.. py:class:: Button(xy, size, align="center", parent=None, style=None, label="OK", callback=None)
+.. py:class:: Button(xy, size, align="center", parent=None, style=None, label="OK", callback=None, long_click_callback)
 
     Base: :class:`Widget`
 
@@ -51,10 +51,13 @@ There are several different elements that can be used in an interface, known as 
     :param Style style: :ref:`style <Styles>` for this button. If None, the button will have the default style
     :param label: Text to display on button
     :param callable callback: function to call when the button is pressed. It should not take any arguments
+    :param callable long_click_callback: function to call when the button has been pressed for more than 1.5 seconds. 
+                                         It should not take any arguments
     
     :Attributes:
         - *label* -- Text to be displayed on the button.
         - *callback* -- Function to be called when button is clicked. No arguments passed. 
+        - *long_click_callback* -- Function to be called when button is pressed for more than 1.5 seconds. No arguments passed. 
           See :ref:`Callbacks` for more information
         
     :Style Attributes:
