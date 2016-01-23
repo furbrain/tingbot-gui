@@ -55,3 +55,27 @@ on the screen otherwise.
         - *slider_line_color* -- color of the line
         - *slider_handle_color* -- color of the handle
 
+.. py:class:: NoteBook(pairs)
+
+    Base: object
+    
+    A NoteBook allows you to control a set of Panels with a set of ToggleButtons. Set all of the panels to cover the
+    same area, and pressing each button will make the associated panel visible, and hide the others. ScrollAreas can
+    also be used.
+    
+    :param pairs: a list of the form [(button1,panel1), (button2,panel2) ...]. panel1,panel2 etc should all occupy the
+                  same screen real estate, whereas button1,button2 should be in distinct locations.
+                  
+    .. code-block:: python
+        :caption: Example: create three panels and buttons and use them to create a NoteBook
+
+        but1 = gui.ToggleButton((30,30),(60,60),label="1")
+        but2 = gui.ToggleButton((30,100),(60,60),label="2")
+        but3 = gui.ToggleButton((30,170),(60,60),label="3")
+        panel1 = gui.Panel((0,70),(320,170))
+        panel2 = gui.Panel((0,70),(320,170))
+        panel3 = gui.Panel((0,70),(320,170))
+
+        nb = NoteBook([(but1,panel1), (but2,panel2), (but3,panel3)])
+
+

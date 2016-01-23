@@ -13,8 +13,7 @@ class NoteBook(object):
 
     def __init__(self, pairs):
         """Create a notebook
-        pairs: a list of the form [(button1,widget1), (button2,widget2)]} - where the controlling button is the
-               key and the controlled widget is the data. The controlled widgets should all occupy the
+        pairs: a list of the form [(button1,panel1), (button2,panel2)]. The controlled widgets should all occupy the
                same screen real estate
 
         Example:
@@ -25,7 +24,7 @@ class NoteBook(object):
             panel2 = gui.Panel((0,70),(320,170))
             panel3 = gui.Panel((0,70),(320,170))
 
-            nb = NoteBook({but1:panel1, but2:panel2, but3:panel3})
+            nb = NoteBook([(but1,panel1), (but2,panel2), (but3,panel3)])
         """
         self.pairs = dict(pairs)
         # hide all widgets apart from the first one

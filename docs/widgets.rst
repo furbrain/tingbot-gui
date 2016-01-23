@@ -7,7 +7,9 @@ There are several different elements that can be used in an interface, known as 
 
     This is the base class for all other widgets, but should not be directly used. All other widgets
     will have the methods listed below. You can make your own widgets by sub-classing this one. You
-    will need to override the draw method, and possibly the on_touch method
+    will need to override the draw method, and possibly the on_touch method.
+    All of the screen drawing methods (``fill``, ``rectangle``, ``image`` and ``line``) are also available within this class.
+    See the `tingbot-python <http://tingbot-python.readthedocs.org/en/latest/reference.html#screen>`_ reference for these methods.
         
     :param xy: position that the widget will be drawn
     :param size: size of the widget
@@ -36,7 +38,22 @@ There are several different elements that can be used in an interface, known as 
     .. py:method:: draw(self)
     
         Called when the widget needs to draw itself. Override this method for all derived widgets    
+
+    .. py:method:: text(self, string, xy=None, size=None, color='grey', align='center', font=None, font_size=32, antialias=None)
         
+        Draw some text on to the widget. If the text will not fit on the widget or in size if specified, then
+        try using a smaller font to see if that will fit, minimum 3/4 specified font size. If the text will still not
+        fit, then truncate the text and add an ellipsis (...).
+            
+        :param string: text to displayed
+        :param xy: location to display the text within the widget. 
+                   If none will be aligned within the widget according to align
+        :param size: size for the text to fit within. If None will be fitted within whole widget
+        :param color: color for the text. Can be either a text string e.g. "blue" or a RGB  e.g (0,0,255)
+        :param align: one of topleft, left, bottomleft, top, center, bottom, topright, right, bottomright
+        :param font: font to use (or the default font if None)
+        :param int font_size: size of font to use
+        :param bool antialias: whether to antialias the text
         
 .. py:class:: Button(xy, size, align="center", parent=None, style=None, label="OK", callback=None, long_click_callback)
 
@@ -171,7 +188,7 @@ There are several different elements that can be used in an interface, known as 
           item is changed. It is passed two arguments, label and data.
           The label is the new label for the control and data is any
           associated data (if no data was passed in the constructor,
-          then data will be None)
+          then data will be None). See :ref:`Callbacks` for more information
             
     :Style Attributes:
         - *bg_color* -- background color
@@ -237,7 +254,7 @@ needs to be part of a :class:`RadioGroup`.
     
     :param callable callback: function to call when one of the radio buttons is pressed. Will be passed
                               two arguments - first is the buttons label, second is it's value
-                              
+                              See :ref:`Callbacks` for more information
     :Attributes:
         - *selected* -- Currently selected RadioButton
                                   

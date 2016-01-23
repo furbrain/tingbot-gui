@@ -30,10 +30,9 @@ defaults = {
     'slider_line_color': (40, 40, 40),
     'slider_handle_color': (200, 200, 200),
 
-    'popup_bg_color': (0, 0, 60),
-
     'messagebox_button_size': (75, 30),
 
+    'popup_bg_color': (0, 0, 60),
     'popupmenu_button_size': (140, 30),
 }
 
