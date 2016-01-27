@@ -22,12 +22,6 @@ class RadioGroup(object):
     def add_button(self, widget):
         self.widgets.append(widget)
 
-    def remove_button(self, widget):
-        self.widgets.remove(widget)
-
-    def remove_all(self):
-        self.widgets[:] = []
-
     def widget_activated(self, widget):
         self.selected = widget
         # deactivate all other widgets
