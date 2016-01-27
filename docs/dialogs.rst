@@ -33,6 +33,14 @@ This is particularly useful for alert boxes and also pop-up menus
         - *slider_line_color* -- color of the line
         - *slider_handle_color* -- color of the handle
 
+    .. py:method:: close(self, ret_value=None)
+        
+        :param ret_value: value to be returned to the callback function
+
+        Close this modal window and return ret_value to the callback function
+
+
+
 .. py:class:: MessageBox(xy=None, size=None, align="center", style=None,\
                          buttons=None, message="", cancellable=True, callback=None)
 
@@ -110,7 +118,7 @@ This is particularly useful for alert boxes and also pop-up menus
         - *button_text_font_size* -- font size to use
         - *popup_bg_color* -- color for the background of the popup
         - *popupmenu_button_size* -- default size for the menu items
-
+        
     :Example:
         .. code-block:: python
             :caption: Bring up a Popup prompting to Open or Save
