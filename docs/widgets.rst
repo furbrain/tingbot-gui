@@ -85,7 +85,17 @@ There are several different elements that can be used in an interface, known as 
         - *button_text_color* -- color to use for text
         - *button_text_font* -- font to use (default)
         - *button_text_font_size* -- font size to use
-    
+        
+    :Example:
+        .. code-block:: python
+
+            def cb(text):
+                print text
+
+            button1 = gui.Button((0,0),(100,25),align="topleft",label="Button 1", 
+                         callback = lambda: cb("Button 1"), 
+                         long_click_callback = lambda: cb("Button 1(long"))
+
 .. py:class:: ToggleButton(xy, size, align="center", parent=None, style=None, label="OK", callback=None)
 
     Base: :class:`Widget`
@@ -115,6 +125,15 @@ There are several different elements that can be used in an interface, known as 
         - *button_text_font* -- font to use (default)
         - *button_text_font_size* -- font size to use
 
+    :Example:
+        .. code-block:: python
+
+            def cb(text,value):
+                print text,value
+
+            button2 = gui.ToggleButton((0,30),(100,25),align="topleft",label="Toggle", 
+                                        callback = lambda x: cb("Toggle Button",x))
+
 .. py:class:: StaticText(xy, size, align="center", parent=None, style=None, label="", text_align="center")
 
     Base: :class:`Widget`
@@ -138,7 +157,15 @@ There are several different elements that can be used in an interface, known as 
         - *statictext_color* -- color to use for text
         - *statictext_font* -- font to use (default)
         - *statictext_font_size* -- font size to use
-        
+
+    :Example:
+        .. code-block:: python
+            :caption: Create a static text widget with a dark red background
+            
+            text = gui.StaticText((0,220),(320,20),align="topleft",
+                                  label="Static Text"
+                                  style=gui.Style(bg_color=(30,0,0)))
+       
 .. py:class:: Slider(xy, size, align = "center", parent = None, style = None, max_val=1.0, min_val=0.0, step = None, change_callback=None)
 
     Base: :class:`Widget`
@@ -164,6 +191,17 @@ There are several different elements that can be used in an interface, known as 
         - *bg_color* -- background color
         - *slider_line_color* -- color of the line
         - *slider_handle_color* -- color of the handle
+        
+    :Example:
+        .. code-block:: python
+            :caption: Create a horizontal slider with a range of 40-100
+
+            def cb(text,value):
+                print text,value
+
+            gui.Slider((0,0),(200,30),align="topleft",
+                       max_val=100, min_val=40, step=10, 
+                       change_callback = lambda x: cb("Slider H",x))
 
 .. py:class:: DropDown(xy, size, align="center", parent=None, style=None, values=None, callback=None)
 
@@ -177,7 +215,7 @@ There are several different elements that can be used in an interface, known as 
     :param align: one of topleft, left, bottomleft, top, center, bottom, topright, right, bottomright
     :param Container parent: container for this checkbox. If None, checkbox will be placed directly on the main screen
     :param Style style: :ref:`style <Styles>` for this checkbox. If None, the checkbox will have the default style
-    :param values: a list of (label,data), one for each menu item
+    :param values: a list of (label,data), one for each menu item. Alternatively [label1,label2,label3] can be used 
     :param callable callback: callback is a function to be called when the selected
                               item is changed. It is passed two arguments, label and data.
 
@@ -199,6 +237,19 @@ There are several different elements that can be used in an interface, known as 
         - *button_text_font* -- font to use (default)
         - *button_text_font_size* -- font size to use
         - *popup_bg_color* -- color for the background of the popup
+        
+    :Example:
+        .. code-block:: python
+            :caption: Create a dropdown menu with three options, one with associated data, 
+                      the other two without
+
+            def cb(label, data):
+                print "Dropdown selected: ", label, data
+
+            dropdown1 = gui.DropDown((0,60),(100,25),align="topleft",
+                                     parent = button_panel.scrolled_area, 
+                                     values = ("one",("two","data for item two"),"three"),
+                                     callback = cb)
 
        
 .. py:class:: CheckBox(xy, size, align="center", parent=None, style=None, label="OK", callback=None)
@@ -229,7 +280,16 @@ There are several different elements that can be used in an interface, known as 
         - *checkbox_text_font* -- font to use (default)
         - *checkbox_text_font_size* -- font size to use
 
+    :Example:
+        .. code-block:: python
+            :caption: Create a checkbox control
+            
+            def cb(label, data):
+                print label, data
 
+            gui.CheckBox((0,0),(100,25), align="topleft",
+                         label="Checkbox",
+                         callback=lambda x:cb("Checkbox",x))
         
 Radio Buttons
 -------------

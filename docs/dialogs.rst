@@ -70,6 +70,18 @@ This is particularly useful for alert boxes and also pop-up menus
         - *statictext_color* -- color to use for message text
         - *statictext_font* -- font to use (default font if None)
         - *statictext_font_size* -- font size to use
+
+    :Example:
+        .. code-block:: python
+            :caption: Find out if the user likes cheese
+
+                def cb(name,value=None):
+                    print name, value
+
+                gui.MessageBox(message="Do you like cheese?",
+                               buttons=["Yes","No","Maybe"],
+                               cancellable=False,
+                               callback = lambda x:cb("Cheese?",x))
     
 .. py:class:: PopupMenu(xy, style=None, cancellable=True, menu_items=None, button_size=None)
 
@@ -98,4 +110,16 @@ This is particularly useful for alert boxes and also pop-up menus
         - *button_text_font_size* -- font size to use
         - *popup_bg_color* -- color for the background of the popup
         - *popupmenu_button_size* -- default size for the menu items
+
+    :Example:
+        .. code-block:: python
+            :caption: Bring up a Popup prompting to Open or Save
+
+                def open_fn():
+                    print "open"
+                    
+                def save_fn():
+                    print "save"
+                    
+                gui.PopupMenu((160,100), menu_items = [("Open",open_fn), ("Save",save_fn)])
                         

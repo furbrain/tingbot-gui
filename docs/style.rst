@@ -36,6 +36,10 @@ Styles can be updated dynamically, even after the widget has been created
     :param \*\*kwargs: specify style attributes as required 
     :returns: A new Style with attributes set as per kwargs, all others are as per default settings
 
+    .. py:method:: copy(self)
+
+        Return a copy of this style
+        
 .. py:function:: get_default_style()
 
     :returns: The default style.
