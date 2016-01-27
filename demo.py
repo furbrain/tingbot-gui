@@ -98,6 +98,7 @@ def alert():
 def question():
     gui.MessageBox(message="Do you like cheese?",
                    buttons=["Yes","No","Maybe"],
+                   cancellable=False,
                    callback = lambda x:cb("Question dialog",x))
 
 def popup(xy = (160,120)):
