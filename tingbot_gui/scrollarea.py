@@ -19,7 +19,7 @@ class VirtualPanel(Panel):
     def get_abs_position(self):
         if hasattr(self.parent, "position"):
             return _xy_subtract(self.parent.get_abs_position(), self.parent.position)
-        else:
+        else: #pragma: no cover can't think of any way to test this currently
             super(VirtualPanel, self).get_abs_position()
 
 
