@@ -20,5 +20,4 @@ tingbot_gui.egg-info/
 htmlcov/
 .coverage
 
-#my local demo files
-/*demo.py
+
