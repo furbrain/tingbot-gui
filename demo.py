@@ -3,7 +3,12 @@ from tingbot import screen, run
 from tingbot.graphics import _xy_from_align
 import tingbot_gui as gui
 
-
+print """
+Usage instructions for testing:
+Click everything!
+Remember to test long clicks for buttons, and also moving mouse off button before completing click
+Cancel alerts by clicking outside them. Also "cancel the cancel by moving mouse back into alert before releasing
+"""
 action_text = gui.StaticText((0,220),(320,20),align="topleft",style=gui.Style(bg_color=(30,0,0)))
 
 def cb(name,value=None):
@@ -52,7 +57,7 @@ texts = [gui.StaticText(parent=scrollarea,**a) for a in args]
 #button panel
 button_panel = gui.Panel(**panel_layouts)
 button1 = gui.Button((0,0),(100,25),align="topleft",label="Button 1", 
-                     parent = button_panel, callback = lambda: cb("Button 1"))
+                     parent = button_panel, callback = lambda: cb("Button 1"), long_click_callback = lambda: cb("Button 1(long"))
 button2 = gui.ToggleButton((0,30),(100,25),align="topleft",label="Tog But", 
                             parent = button_panel, callback = lambda x: cb("Toggle Button",x))
 dropdown1 = gui.DropDown((0,60),(100,25),align="topleft",
