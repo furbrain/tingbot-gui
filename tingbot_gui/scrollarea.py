@@ -9,8 +9,8 @@ class VirtualPanel(Panel):
 
     """This class implements a virtual panel"""
 
-    def __init__(self, size, parent):
-        super(VirtualPanel, self).__init__((0, 0), size, "topleft", parent)
+    def __init__(self, size, parent, style):
+        super(VirtualPanel, self).__init__((0, 0), size, "topleft", parent, style)
         self.init_size = size
 
     def _create_surface(self):
@@ -30,7 +30,7 @@ class ViewPort(Container):
     def __init__(self, xy, size, align="center", parent=None, style=None,
                  canvas_size=None, vslider=None, hslider=None):
         super(ViewPort, self).__init__(xy, size, align, parent, style)
-        self.panel = VirtualPanel(canvas_size, self)
+        self.panel = VirtualPanel(canvas_size, self, style)
         self.resize_canvas(canvas_size)
         self.set_sliders(vslider,hslider)
             

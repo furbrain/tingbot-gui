@@ -53,7 +53,7 @@ text_panel = gui.ScrollArea(canvas_size=(300,300),style=gui.Style(bg_color="navy
 positions = ['topleft', 'left', 'bottomleft', 'top', 'center', 'bottom', 'topright', 'right', 'bottomright']
 scrollarea = text_panel.scrolled_area
 args = [{'xy':_xy_from_align(x,(300,300)),
-         'size':(100,50),
+         'size':(80,50),
          'align':x,
          'text_align':x,
          'label':x} for x in positions]
