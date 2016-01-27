@@ -26,7 +26,6 @@ class PopupMenu(ModalWindow):
         the screen at any position it will be given appropriate
         scroll bars
         """
- 
         if style is None:
             style = get_default_style()
         if button_size == None:
@@ -39,7 +38,6 @@ class PopupMenu(ModalWindow):
         
         menu_window.clamp_ip((0,0),(320,240))
         menu_window = menu_window.clip((0,0),(320,240))
-        
         super(PopupMenu, self).__init__(xy=menu_window.topleft, 
                                         size=menu_window.size, 
                                         align="topleft", style=style,
@@ -55,7 +53,7 @@ class PopupMenu(ModalWindow):
         # populate popupmenu
         for i, (label, item_callback) in enumerate(menu_items):
             but = PopupButton(
-                xy=(0, i * self.style.popupmenu_button_size[1]),
+                xy=(0, i * button_size[1]),
                 size = button_size,
                 align = "topleft",
                 parent = scroller.scrolled_area,
