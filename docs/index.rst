@@ -16,6 +16,7 @@ Contents:
    dialogs
    style
    callbacks
+   example
    
    
 Graphical user interface

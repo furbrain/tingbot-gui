@@ -3,12 +3,6 @@ from tingbot import screen, run
 from tingbot.graphics import _xy_from_align
 import tingbot_gui as gui
 
-print """
-Usage instructions for testing:
-Click everything!
-Remember to test long clicks for buttons, and also moving mouse off button before completing click
-Cancel alerts by clicking outside them. Also cancel the cancel by moving mouse back into alert before releasing
-"""
 
 
 
