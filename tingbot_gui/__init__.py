@@ -4,12 +4,13 @@ from .checkbox import CheckBox
 from .radiobutton import RadioButton, RadioGroup
 from .slider import Slider
 from .dropdown import DropDown
+from .widget import Widget
 
-from .container import Panel, get_root_widget
+from .container import Container, Panel, get_root_widget
 from .scrollarea import ScrollArea
 from .notebook import NoteBook
 
-from .dialog import MessageBox
+from .dialog import ModalWindow, MessageBox
 from .popupmenu import PopupMenu, PopupButton
 from .style import Style, get_default_style
 
