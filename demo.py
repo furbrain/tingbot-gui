@@ -72,14 +72,17 @@ button1 = gui.Button((0,0),(100,25),align="topleft",label="Button 1",
                      parent = button_panel.scrolled_area, 
                      callback = lambda: cb("Button 1"), 
                      long_click_callback = lambda: cb("Button 1(long"))
-button2 = gui.ToggleButton((0,30),(100,25),align="topleft",label="Tog But", 
+button2 = gui.Button((0,30),(100,25),align="topleft",label="image:player_play.png", 
+                     parent = button_panel.scrolled_area, 
+                     callback = lambda: cb("Button 2(image)")) 
+utton3 = gui.ToggleButton((0,60),(100,25),align="topleft",label="Tog But", 
                             parent = button_panel.scrolled_area, 
                             callback = lambda x: cb("Toggle Button",x))
-dropdown1 = gui.DropDown((0,60),(100,25),align="topleft",
+dropdown1 = gui.DropDown((0,90),(100,25),align="topleft",
                          parent = button_panel.scrolled_area, 
                          values = ("DD one",("two","data for item two")),
                          callback = lambda x,y:cb("DropDown1",(x,y)))
-dropdown2 = gui.DropDown((0,90),(100,25),align="topleft", 
+dropdown2 = gui.DropDown((0,120),(100,25),align="topleft", 
                          parent = button_panel.scrolled_area, 
                          values =("DD 2","two","3","4","5","6","7","8","9","10","11"),
                          callback = lambda x,y:cb("DropDown1",(x,y)))
@@ -163,7 +166,7 @@ notebook_panels = [basic_panel,slider_panel,text_panel,
 nb = gui.NoteBook(zip(notebook_buttons,notebook_panels))
 print "Current notebook tab: " + nb.selected.label
 
-gui.get_root_widget().fill('black')
+gui.get_root_widget().fill(notebook_style.bg_color)
 gui.get_root_widget().update(downwards=True)
 def loop():
     pass

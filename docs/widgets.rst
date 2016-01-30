@@ -66,13 +66,15 @@ There are several different elements that can be used in an interface, known as 
     :param align: one of topleft, left, bottomleft, top, center, bottom, topright, right, bottomright
     :param Container parent: container for this button. If None, button will be placed directly on the main screen
     :param Style style: :ref:`style <Styles>` for this button. If None, the button will have the default style
-    :param label: Text to display on button
+    :param label: Text to be displayed on the button. If starts with ``image:`` then
+                  the rest of the string specifies an image file to be displayed on the button.
     :param callable callback: function to call when the button is pressed. It should not take any arguments
     :param callable long_click_callback: function to call when the button has been pressed for more than 1.5 seconds. 
                                          It should not take any arguments
     
     :Attributes:
-        - *label* -- Text to be displayed on the button.
+        - *label* -- Text to be displayed on the button. If starts with ``image:`` then
+          the rest of the string specifies an image file to be displayed on the button.
         - *callback* -- Function to be called when button is clicked. No arguments passed. 
         - *long_click_callback* -- Function to be called when button is pressed for more than 1.5 seconds. No arguments passed. 
           See :ref:`Callbacks` for more information
@@ -95,7 +97,12 @@ There are several different elements that can be used in an interface, known as 
             button1 = gui.Button((0,0),(100,25),align="topleft",label="Button 1", 
                          callback = lambda: cb("Button 1"), 
                          long_click_callback = lambda: cb("Button 1(long"))
+            button2 = gui.Button((0,30),(100,25),align="topleft",label="image:player_play.png", 
+                                 callback = lambda: cb("Button 2(image)")) 
 
+
+        .. image:: images/button_demo.png
+        
 .. py:class:: ToggleButton(xy, size, align="center", parent=None, style=None, label="OK", callback=None)
 
     Base: :class:`Widget`
@@ -107,11 +114,13 @@ There are several different elements that can be used in an interface, known as 
     :param align: one of topleft, left, bottomleft, top, center, bottom, topright, right, bottomright
     :param Container parent: container for this button. If None, button will be placed directly on the main screen
     :param Style style: :ref:`style <Styles>` for this button. If None, the button will have the default style
-    :param label: Text to display on button
+    :param label: Text to be displayed on the button. If starts with ``image:`` then
+                  the rest of the string specifies an image file to be displayed on the button.
     :param callable callback: function to call when the button is pressed. It should accept a single boolean value
     
     :Attributes:
-        - *label* -- Text to be displayed on the button.
+        - *label* -- Text to be displayed on the button. If starts with ``image:`` then
+          the rest of the string specifies an image file to be displayed on the button.
         - *pressed* -- Current state of the button. True if pressed, False if not
         - *callback* -- Function to be called when button is clicked. A boolean value is passed which is the current state of the button.
           See :ref:`Callbacks` for more information

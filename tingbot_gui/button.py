@@ -93,10 +93,13 @@ class Button(Widget):
 
     def draw(self):
         self.draw_button()
-        self.text(self.label,
-                  color=self.style.button_text_color,
-                  font=self.style.button_text_font,
-                  font_size=self.style.button_text_font_size)
+        if self.label.startswith("image:"):
+            self.image(self.label[6:])
+        else:
+            self.text(self.label,
+                      color=self.style.button_text_color,
+                      font=self.style.button_text_font,
+                      font_size=self.style.button_text_font_size)
 
 
 class ToggleButton(Button):

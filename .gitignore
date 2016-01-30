@@ -20,4 +20,5 @@ tingbot_gui.egg-info/
 htmlcov/
 .coverage
 
-
+#TODO list
+/TODO
