@@ -18,6 +18,9 @@ class VirtualPanel(Panel):
 
     def _create_surface(self):
         return pygame.Surface(self.init_size, 0, self.parent.surface)
+        
+    def is_visible(self):
+        return self.visible
 
     def get_abs_position(self):
         if hasattr(self.parent, "position"):
@@ -254,7 +257,7 @@ class ScrollArea(Container):
         downwards: set to True to make any children  redraw themselves
         """
         super(ScrollArea, self).update(upwards, downwards)
-        if self.visible:
+        if self.is_visible():
             if self.vslider:
                 self.vslider.update(upwards=False)
             if self.hslider:

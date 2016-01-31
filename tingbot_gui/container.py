@@ -64,7 +64,7 @@ class Container(Widget):
         upwards: set to True to ask any parents (and their parents) to redraw themselves
         downwards: set to True to make any children  redraw themselves
         """
-        if self.visible:
+        if self.is_visible():
             if downwards:
                 for child in self.children:
                     child.update(upwards=False, downwards=True)
@@ -98,7 +98,7 @@ class Panel(Container):
 
     def update(self, upwards=True, downwards=False):
         # clear contents before drawing
-        if self.visible and downwards:
+        if self.is_visible() and downwards:
             self.fill(self.style.bg_color)
         super(Panel, self).update(upwards, downwards)
 
@@ -121,6 +121,9 @@ class RootWidget(Container):
     def draw(self):
         pass
 
+    def is_visible(self):   
+        return self.visible
+        
     def update(self, upwards=True, downwards=False):
         if self.visible:
             if downwards:
@@ -130,6 +133,7 @@ class RootWidget(Container):
 
     def get_abs_position(self):
         return (0, 0)
+
 
 root = RootWidget()
 

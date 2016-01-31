@@ -44,7 +44,7 @@ class Widget(Surface):
         downwards: set to True to make any children  redraw themselves
         """
 
-        if self.visible:
+        if self.is_visible():
             self.draw()
         if upwards:
             self.parent.update()
@@ -64,6 +64,9 @@ class Widget(Surface):
     @property
     def local_rect(self):
         return pygame.Rect((0,0),self.init_size)
+        
+    def is_visible(self):
+        return self.parent.is_visible() and self.visible
         
     def resurface(self,surface):
         """attach this widget to a new surface (used when a virtual panel changes size)"""
