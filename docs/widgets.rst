@@ -26,7 +26,12 @@ There are several different elements that can be used in an interface, known as 
         Override this method for any widgets that respond to touch events
         
         :param xy: position of the touch
-        :param action: one of "up", "down", "move"
+        :param action: one of "up", "move", "down", "drag", "drag_up". The first touch is recorded as "down".
+                       If the touch moves, this is passed as a "move" and when the touch finishes an "up" action
+                       is passed. If the widget is within a :class:`ScrollArea` then as the touch moves the 
+                       ScrollArea may start moving it's viewable area - this is passed as a "drag" (and finishes
+                       with a "drag_up"). Widgets may wish to ignore "drag" and "drag_up" events as the user likely
+                       wanted to interact with the ScrollArea rather than the specific widget.
         
     .. py:method:: update(self,upwards=True,downwards=False)
     

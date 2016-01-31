@@ -52,11 +52,11 @@ class Container(Widget):
                     self.active_hit_areas.append(hit_area)
                     pos = _xy_subtract(xy, hit_area.rect.topleft)
                     hit_area.callback(pos, 'down')
-        elif action in ('move', 'up'):
+        elif action in ('move', 'drag', 'up', 'drag_up'):
             for hit_area in self.active_hit_areas:
                 pos = _xy_subtract(xy, hit_area.rect.topleft)
                 hit_area.callback(pos, action)
-        if action == 'up':
+        if action in ('up','drag_up'):
             self.active_hit_areas[:] = []
 
     def update(self, upwards=True, downwards=False):

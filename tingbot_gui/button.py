@@ -44,13 +44,13 @@ class Button(Widget):
             self.update()
             if self.long_click_callback:
                 once(seconds=1.5)(partial(self._long_click,self.click_count))
-        elif action == "up" and self.pressed:
+        elif action in ("up","drag","drag_up") and self.pressed:
             self.click_count += 1
             self.pressed = False
             self.update()
-            if self.local_rect.collidepoint(xy):
+            if self.local_rect.collidepoint(xy) and action=="up":
                 self.on_click()
-        if action == "move":
+        elif action == "move":
             if not self.local_rect.collidepoint(xy):
                 self.click_count += 1
                 
@@ -123,8 +123,8 @@ class ToggleButton(Button):
     def on_touch(self, xy, action):
         if action == "down":
             self.pressed = not self.pressed
-        elif action == "up":
-            if pygame.Rect((0, 0), self.size).collidepoint(xy):
+        elif action in ("up","drag_up"):
+            if pygame.Rect((0, 0), self.size).collidepoint(xy) and action=="up":
                 if self.callback:
                     self.callback(self.pressed)
             else:

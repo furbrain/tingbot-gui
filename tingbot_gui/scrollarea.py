@@ -1,7 +1,8 @@
 import pygame
+
 from .container import Panel, Container
 from .slider import Slider
-from .util import clamp
+from .util import clamp, distance
 from tingbot.graphics import _xy_subtract, _xy_add
 
 
@@ -33,6 +34,7 @@ class ViewPort(Container):
         self.panel = VirtualPanel(canvas_size, self, style)
         self.resize_canvas(canvas_size)
         self.set_sliders(vslider,hslider)
+        self.dragging = False
             
     def set_sliders(self, vslider, hslider):
         self.vslider = vslider
@@ -58,7 +60,7 @@ class ViewPort(Container):
             self.hslider.value = value
         self.update()
 
-    def set_y(self, value, inverted=False):
+    def set_y(self, value):
         value = clamp(0, self.max_position[1], int(value))
         self.position[1] = int(value)
         if self.vslider:
@@ -70,14 +72,30 @@ class ViewPort(Container):
         self.set_y(value)
 
     def on_touch(self, xy, action):
+        if action=="down":
+            self.drag_origin = xy
+        if action=="move":
+            if self.dragging:
+                if self.hslider:
+                    self.set_x(self.drag_offset[0]-xy[0])
+                if self.vslider:
+                    self.set_y(self.drag_offset[1]-xy[1])
+                action="drag"
+            else:
+                if distance(xy,self.drag_origin)>15:
+                    self.dragging=True
+                    self.drag_offset = _xy_add(self.position,self.drag_origin)
+        if action in ("up","drag_up"):
+            if self.dragging:
+                action="drag_up"
+                self.dragging = False               
         # translate xy positions to account for panel position, and pass on to
         # the panel for processing
         self.panel.on_touch(_xy_add(xy, self.position), action)
 
     def draw(self):
         self.fill(self.style.bg_color)
-        self.surface.blit(self.panel.surface, (
-            0, 0), pygame.Rect(self.position, self.size))
+        self.surface.blit(self.panel.surface, (0,0), pygame.Rect(self.position, self.size))
 
     def resize(self,size):
         """resize this container to the specified size"""
