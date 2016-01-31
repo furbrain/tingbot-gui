@@ -26,6 +26,9 @@ defaults = {
     'radiobutton_text_font_size': 16,
 
     'scrollbar_width': 15,
+    'scrollarea_flick_decay':600, #speed that a flick decreases by in pixels per second per second
+    'scrollarea_min_flick_speed':60, #speed below which a flick stops in pixels per second
+    'scrollarea_flick_threshold':100,
 
     'slider_line_color': (40, 40, 40),
     'slider_handle_color': (200, 200, 200),

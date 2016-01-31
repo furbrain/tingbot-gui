@@ -52,14 +52,14 @@ gui.Slider((0,40),(30,180),align="topleft",
            change_callback = lambda x: cb("Slider V",x))
 
 #text panel
-text_panel = gui.ScrollArea(canvas_size=(300,300),
+text_panel = gui.ScrollArea(canvas_size=(500,500),
                             style=gui.Style(bg_color="navy"),
                             **panel_layouts)
 positions = ['topleft', 'left', 'bottomleft', 
              'top', 'center', 'bottom', 
              'topright', 'right', 'bottomright']
 scrollarea = text_panel.scrolled_area
-args = [{'xy':_xy_from_align(x,(300,300)),
+args = [{'xy':_xy_from_align(x,(500,500)),
          'size':(80,50),
          'align':x,
          'text_align':x,
@@ -84,7 +84,7 @@ dropdown1 = gui.DropDown((0,90),(100,25),align="topleft",
                          callback = lambda x,y:cb("DropDown1",(x,y)))
 dropdown2 = gui.DropDown((0,120),(100,25),align="topleft", 
                          parent = button_panel.scrolled_area, 
-                         values =("DD 2","two","3","4","5","6","7","8","9","10","11"),
+                         values = range(100),
                          callback = lambda x,y:cb("DropDown1",(x,y)))
 dropdown3 = gui.DropDown((0,190),(100,25),align="topleft", 
                          parent = button_panel.scrolled_area, 

@@ -5,6 +5,7 @@ from .container import Panel, Container
 from .slider import Slider
 from .util import clamp
 from tingbot.graphics import _xy_subtract, _xy_add
+from tingbot import every, once, main_run_loop
 
 
 class VirtualPanel(Panel):
@@ -36,6 +37,11 @@ class ViewPort(Container):
         self.resize_canvas(canvas_size)
         self.set_sliders(vslider,hslider)
         self.dragging = False
+        self.flicking = False
+        self.last_move = []
+        self.velocity = [0,0]
+        self.flick_position = [0.0,0.0]
+        self.last_flick_time = 0
         
     def distance(self,a,b):
         """return a distance between two points, but only consider an axis if there is
@@ -49,6 +55,52 @@ class ViewPort(Container):
             return abs(a[0]-b[1])
         else:
             return 0
+            
+    def get_velocity(self,a,b):
+        dt = float(b[1]-a[1])/1000.0
+        dx = b[0][0]-a[0][0]
+        dy = b[0][1]-a[0][1]
+        return [dx/dt,dy/dt]
+        
+    def start_flick(self,velocity):
+        if self.distance(velocity,(0,0)) > self.style.scrollarea_flick_threshold:
+            self.velocity = [-i for i in velocity]
+            self.flicking = True
+            self.flick_position = [float(i) for i in self.position]
+            self.last_flick_time = pygame.time.get_ticks()
+            every(seconds = 1.0/30.0)(self.flicker)
+        else:
+            self.flicking = False
+            
+    def flicker(self):
+        tm = pygame.time.get_ticks()
+        dt = (tm-self.last_flick_time)/1000.0
+        self.last_flick_time=tm
+        #move position
+        for i in range(2):
+            #update position of scrollarea (held separately as  a float to avoid rounding errors)
+            self.flick_position[i] += self.velocity[i]*dt
+            #decay the velocity of the flick
+            if self.velocity[i]>0:
+                self.velocity[i] -= self.style.scrollarea_flick_decay*dt
+            elif self.velocity[i]<0:
+                self.velocity[i] += self.style.scrollarea_flick_decay*dt
+            #stop a flick if we have reached either bound
+            if not (0 < self.flick_position[i] < self.max_position[i]):
+                self.velocity[i] = 0.0
+            #stop a flick if we are going too slowly
+            if abs(self.velocity[i])<self.style.scrollarea_min_flick_speed:
+                self.velocity[i] = 0.0
+        self.set_x(self.flick_position[0])
+        self.set_y(self.flick_position[1])
+        #check to see if finished
+        if self.velocity==[0,0]:
+            once()(self.end_flick) #queue up an end_flick - can't be called directly from within flicker            
+        pass
+        
+    def end_flick(self):
+        self.flicking = False
+        main_run_loop.remove_timer(self.flicker)
             
     def set_sliders(self, vslider, hslider):
         self.vslider = vslider
@@ -87,9 +139,14 @@ class ViewPort(Container):
 
     def on_touch(self, xy, action):
         if action=="down":
+            if self.flicking:
+                self.end_flick()
+                self.dragging=True
             self.drag_origin = xy
         if action=="move":
             if self.dragging:
+                self.last_move.append((xy,pygame.time.get_ticks()))
+                self.last_move[:] = self.last_move[-5:]
                 if self.hslider:
                     self.set_x(self.drag_offset[0]-xy[0])
                 if self.vslider:
@@ -98,11 +155,15 @@ class ViewPort(Container):
             else:
                 if self.distance(xy,self.drag_origin)>15:
                     self.dragging=True
+                    self.last_move = [(xy,pygame.time.get_ticks())]
                     self.drag_offset = _xy_add(self.position,self.drag_origin)
         if action in ("up","drag_up"):
             if self.dragging:
                 action="drag_up"
-                self.dragging = False               
+                self.dragging = False
+                if len(self.last_move)>=2:
+                    self.start_flick(self.get_velocity(self.last_move[-1],self.last_move[0]))
+                self.last_move = []
         # translate xy positions to account for panel position, and pass on to
         # the panel for processing
         self.panel.on_touch(_xy_add(xy, self.position), action)
