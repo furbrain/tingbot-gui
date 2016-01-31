@@ -44,7 +44,7 @@ gui.RadioButton((0,90),(100,25),align="topleft",
 #slider panel
 slider_panel = gui.Panel(**panel_layouts)
 gui.Slider((0,0),(200,30),align="topleft",
-           max_val=100,min_val=40, step=10, 
+           max_val=100,min_val=40, step=15, 
            parent=slider_panel,
            change_callback = lambda x: cb("Slider H",x))
 gui.Slider((0,40),(30,180),align="topleft",

@@ -29,13 +29,13 @@ class Slider(Widget):
         """
         super(Slider, self).__init__(xy, size, align, parent, style)
         self.vertical = size[0] < size[1]
-        self.max_val = max_val
-        self.min_val = min_val
+        self.max_val = float(max_val)
+        self.min_val = float(min_val)
         if step:
-            self.step = step
+            self.step = float(step)
         else:
-            self.step = (max_val - min_val) / 10
-        self.value = min_val
+            self.step = (max_val - min_val) / 10.0
+        self.value = float(min_val)
         self.pressed = False
         self.change_callback = change_callback
 
@@ -95,22 +95,7 @@ class Slider(Widget):
 
     def on_touch(self, xy, action):
         handle_size = self.get_handle_size()
-        if self.pressed:
-            if action == "move" or action == "up":
-                if self.vertical:
-                    pos = 1.0 - \
-                        float(xy[1] - handle_size[1] / 2) / (
-                            self.size[1] - handle_size[1])
-                else:
-                    pos = float(xy[0] - handle_size[0] / 2) / (
-                        self.size[0] - handle_size[0])
-                self.value = self.min_val + pos * (self.max_val - self.min_val)
-                self.value = clamp(self.min_val, self.max_val, self.value)
-                if self.change_callback:
-                    self.change_callback(self.value)
-                self.update()
-        else:
-            if action == "down":
+        if action=="down":
                 handle_pos = _topleft_from_aligned_xy(
                     self.get_handle_position(),
                     "center",
@@ -119,3 +104,31 @@ class Slider(Widget):
                 handle_rect = pygame.Rect(handle_pos, handle_size)
                 if handle_rect.collidepoint(xy):
                     self.pressed = True
+        if action in ("move","up"):
+            if self.vertical:
+                pos = 1.0 - \
+                    float(xy[1] - handle_size[1] / 2) / (
+                        self.size[1] - handle_size[1])
+            else:
+                pos = float(xy[0] - handle_size[0] / 2) / (
+                    self.size[0] - handle_size[0])
+            new_pos = self.min_val + pos * (self.max_val - self.min_val)
+            new_pos = clamp(self.min_val, self.max_val, new_pos)
+            if self.pressed:            
+                self.value = new_pos
+                if self.change_callback:
+                    self.change_callback(self.value)
+                self.update()
+            elif action=="up":
+                if new_pos>(self.value+self.step):
+                    self.value +=self.step
+                elif new_pos<(self.value-self.step):
+                    self.value -= self.step
+                else:
+                    self.value = new_pos
+                if self.change_callback:
+                    self.change_callback(self.value)
+                self.update()    
+        if action in ("up","drag_up"):
+            self.pressed = False                                
+
