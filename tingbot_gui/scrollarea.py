@@ -1,8 +1,9 @@
+import math
 import pygame
 
 from .container import Panel, Container
 from .slider import Slider
-from .util import clamp, distance
+from .util import clamp
 from tingbot.graphics import _xy_subtract, _xy_add
 
 
@@ -35,6 +36,19 @@ class ViewPort(Container):
         self.resize_canvas(canvas_size)
         self.set_sliders(vslider,hslider)
         self.dragging = False
+        
+    def distance(self,a,b):
+        """return a distance between two points, but only consider an axis if there is
+        a corresponding slider"""
+        if self.vslider:
+            if self.hslider:
+                return math.hypot(a[0]-b[0],a[1]-b[1])
+            else:
+                return abs(a[1]-b[1])
+        elif self.hslider:
+            return abs(a[0]-b[1])
+        else:
+            return 0
             
     def set_sliders(self, vslider, hslider):
         self.vslider = vslider
@@ -82,7 +96,7 @@ class ViewPort(Container):
                     self.set_y(self.drag_offset[1]-xy[1])
                 action="drag"
             else:
-                if distance(xy,self.drag_origin)>15:
+                if self.distance(xy,self.drag_origin)>15:
                     self.dragging=True
                     self.drag_offset = _xy_add(self.position,self.drag_origin)
         if action in ("up","drag_up"):
