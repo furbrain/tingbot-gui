@@ -46,6 +46,9 @@ on the screen otherwise.
     
     ScrollArea gives a viewing area into another, usually larger area. This allows the user to access more
     widgets than will fit on the display. Scrollbars will be added to the bottom or right edges as needed.
+    The ScrollArea can be moved by dragging within its area. A fast drag will initiate a "flick" where the
+    ScrollArea carries on scrolling after the drag finishes. It will gradually slow and stop, unless it runs
+    out of room.
 
     :param xy: position that the widget will be drawn
     :param size: size of the widget
@@ -60,6 +63,9 @@ on the screen otherwise.
     :Style Attributes:
         - *scrollbar_width* -- width of the scrollbars
         - *slider_line_color* -- color of the line
+        - *scrollarea_flick_decay* -- speed that a flick decreases by in pixels per second per second (default 600)
+        - *scrollarea_min_flick_speed* -- speed below which a flick stops in pixels per second (default 60)
+        - *scrollarea_flick_threshold* -- speed required to generate a flick in pixels per second (default 100)
         - *slider_handle_color* -- color of the handle
 
     .. py:method:: resize_canvas(self, canvas_size)
