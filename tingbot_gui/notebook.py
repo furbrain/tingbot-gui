@@ -11,10 +11,12 @@ class NoteBook(object):
     Style Attributes: none
     """
 
-    def __init__(self, pairs):
+    def __init__(self, pairs, callback=None):
         """Create a notebook
         pairs: a list of the form [(button1,panel1), (button2,panel2)]. The controlled widgets should all occupy the
                same screen real estate
+        callback: a callback to be called whenever the selected panel changes. It is passed two arguments, the 
+                  newly selected button and the selected panel.
 
         Example:
             but1 = gui.ToggleButton((30,30),(60,60),label="1")
@@ -27,6 +29,7 @@ class NoteBook(object):
             nb = NoteBook([(but1,panel1), (but2,panel2), (but3,panel3)])
         """
         self.pairs = dict(pairs)
+        self.callback = callback
         # hide all widgets apart from the first one
         first_but, first_widget = pairs[0]
         first_but.pressed = True
@@ -61,3 +64,5 @@ class NoteBook(object):
                 but.pressed = False
                 widg.visible = False
                 but.update()
+        if self.callback:
+            self.callback(button,self.pairs[button])

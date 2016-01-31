@@ -75,7 +75,7 @@ button1 = gui.Button((0,0),(100,25),align="topleft",label="Button 1",
 button2 = gui.Button((0,30),(100,25),align="topleft",label="image:player_play.png", 
                      parent = button_panel.scrolled_area, 
                      callback = lambda: cb("Button 2(image)")) 
-utton3 = gui.ToggleButton((0,60),(100,25),align="topleft",label="Tog But", 
+button3 = gui.ToggleButton((0,60),(100,25),align="topleft",label="Tog But", 
                             parent = button_panel.scrolled_area, 
                             callback = lambda x: cb("Toggle Button",x))
 dropdown1 = gui.DropDown((0,90),(100,25),align="topleft",
@@ -161,9 +161,13 @@ gui.Button((0,30),(90,25),align="topleft",parent=dynamic_panel,
 gui.Button((0,60),(90,25),align="topleft",parent=dynamic_panel,
            label="Del all",callback=remove_all)
 
+
+def nb_cb(button,panel):
+    print "Notebook panel changed: " +button.label
+
 notebook_panels = [basic_panel,slider_panel,text_panel,
                    button_panel,dialog_panel,dynamic_panel]
-nb = gui.NoteBook(zip(notebook_buttons,notebook_panels))
+nb = gui.NoteBook(zip(notebook_buttons,notebook_panels),callback = nb_cb)
 print "Current notebook tab: " + nb.selected.label
 
 gui.get_root_widget().fill(notebook_style.bg_color)
