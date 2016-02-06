@@ -39,6 +39,7 @@ class ViewPort(Container):
         self.panel = VirtualPanel(canvas_size, self, style)
         self.resize_canvas(canvas_size)
         self.set_sliders(vslider,hslider)
+        self.drag_start = False
         self.dragging = False
         self.flicking = False
         self.last_move = []
@@ -111,10 +112,10 @@ class ViewPort(Container):
         if self.vslider:
             self.vslider.max_val = self.max_position[1]
             self.vslider.value = self.max_position[1]
-            self.vslider.change_callback = self.vslider_cb
+            self.vslider.callback = self.vslider_cb
         if self.hslider:
             self.hslider.max_val = self.max_position[0]
-            self.hslider.change_callback = self.set_x
+            self.hslider.callback = self.set_x
 
     def resize_canvas(self,canvas_size):
         self.position = [0, 0]
@@ -141,12 +142,13 @@ class ViewPort(Container):
         self.set_y(value)
 
     def on_touch(self, xy, action):
-        if action=="down":
+        if action=="down" and self.local_rect.collidepoint(xy):
             if self.flicking:
                 self.end_flick()
                 self.dragging=True
+            self.drag_start=True  
             self.drag_origin = xy
-        if action=="move":
+        if action=="move" and self.drag_start:
             if self.dragging:
                 self.last_move.append((xy,pygame.time.get_ticks()))
                 self.last_move[:] = self.last_move[-5:]
@@ -161,6 +163,7 @@ class ViewPort(Container):
                     self.last_move = [(xy,pygame.time.get_ticks())]
                     self.drag_offset = _xy_add(self.position,self.drag_origin)
         if action in ("up","drag_up"):
+            self.drag_start = False
             if self.dragging:
                 action="drag_up"
                 self.dragging = False

@@ -12,7 +12,7 @@ class Slider(Widget):
         max_val: maximum value that the slider can have
         min_val: minimum value that the slider can have
         step:    step value that the slider will change by if clicked
-        change_callback: a function that accepts a float - called when the value is changed by a touch event
+        callback: a function that accepts a float - called when the value is changed by a touch event
 
     Style Attributes:
         slider_line_color: color of the line
@@ -20,12 +20,12 @@ class Slider(Widget):
     """
 
     def __init__(self, xy, size, align="center", parent=None, style=None,
-                 max_val=1.0, min_val=0.0, step=None, change_callback=None):
+                 max_val=1.0, min_val=0.0, step=None, callback=None):
         """create a button with size and position specified by xy, size and align
         it will be a vertical slider if height is greater than width, otherwise horizontal
         max_val and min_val specify the maximum and minimum values respectively
         step specifies the step value, or 1/10 on the distance between max_val and min_val if zero or None
-        change_callback(value) is a function to call if the value is changed
+        callback(value) is a function to call if the value is changed
         """
         super(Slider, self).__init__(xy, size, align, parent, style)
         self.vertical = size[0] < size[1]
@@ -37,7 +37,7 @@ class Slider(Widget):
             self.step = (max_val - min_val) / 10.0
         self.value = float(min_val)
         self.pressed = False
-        self.change_callback = change_callback
+        self.callback = callback
 
     def get_handle_size(self):
         (w, h) = self.size
@@ -116,8 +116,8 @@ class Slider(Widget):
             new_pos = clamp(self.min_val, self.max_val, new_pos)
             if self.pressed:            
                 self.value = new_pos
-                if self.change_callback:
-                    self.change_callback(self.value)
+                if self.callback:
+                    self.callback(self.value)
                 self.update()
             elif action=="up":
                 if new_pos>(self.value+self.step):
@@ -126,8 +126,8 @@ class Slider(Widget):
                     self.value -= self.step
                 else:
                     self.value = new_pos
-                if self.change_callback:
-                    self.change_callback(self.value)
+                if self.callback:
+                    self.callback(self.value)
                 self.update()    
         if action in ("up","drag_up"):
             self.pressed = False                                
