@@ -46,10 +46,10 @@ slider_panel = gui.Panel(**panel_layouts)
 gui.Slider((0,0),(200,30),align="topleft",
            max_val=100,min_val=40, step=15, 
            parent=slider_panel,
-           change_callback = lambda x: cb("Slider H",x))
+           callback = lambda x: cb("Slider H",x))
 gui.Slider((0,40),(30,180),align="topleft",
            parent=slider_panel,
-           change_callback = lambda x: cb("Slider V",x))
+           callback = lambda x: cb("Slider V",x))
 
 #text panel
 text_panel = gui.ScrollArea(canvas_size=(500,500),
