@@ -27,7 +27,7 @@ For example, the callback for a slider will pass it's current value as a float
         screen.text("%d" % int(value))
 
     slider = gui.Slider((0,200),(320,20),align="topleft",
-                        max_val = 200,change_callback = slider_callback)
+                        max_val = 200, callback = slider_callback)
     
 Passing extra arguments to callbacks
 ++++++++++++++++++++++++++++++++++++
@@ -56,11 +56,11 @@ If the callback should be passed a value from the widget, then you need to use t
         screen.text("Slider %s: %d" % (name,int(value)),(160,50))
 
     sld1 = gui.Slider((120,110),(230,20),max_val=200,
-                      change_callback = lambda x: slider_callback(x,"1"))
+                      callback = lambda x: slider_callback(x,"1"))
     sld2 = gui.Slider((120,150),(230,20),max_val=200,
-                      change_callback = lambda x: slider_callback(x,"2"))
+                      callback = lambda x: slider_callback(x,"2"))
     sld3 = gui.Slider((120,190),(230,20),max_val=200,
-                      change_callback = lambda x: slider_callback(x,"3"))
+                      callback = lambda x: slider_callback(x,"3"))
 
 For more information about ``lambda`` the `Mouse vs Python blog <http://www.blog.pythonlibrary.org/2010/07/19/the-python-lambda/>`_ is a good summary of the subject.
 

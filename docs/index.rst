@@ -123,9 +123,9 @@ Lets finally add some numbers to each slider to reflect it's current value.
    def update_label(label,value):
        label.label = str(int(value))
        
-   red.change_callback = lambda x: update_label(red_label,x)    
-   green.change_callback = lambda x: update_label(green_label,x)    
-   blue.change_callback = lambda x: update_label(blue_label,x)    
+   red.callback = lambda x: update_label(red_label,x)    
+   green.callback = lambda x: update_label(green_label,x)    
+   blue.callback = lambda x: update_label(blue_label,x)    
    
 First of all we create some more labels - ``red_label, ``green_label`` and ``blue_label``, and
 we next take a function ``update_label`` that takes a label and a value and sets that label

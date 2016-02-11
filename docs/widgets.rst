@@ -180,7 +180,7 @@ There are several different elements that can be used in an interface, known as 
                                   label="Static Text"
                                   style=gui.Style(bg_color=(30,0,0)))
        
-.. py:class:: Slider(xy, size, align = "center", parent = None, style = None, max_val=1.0, min_val=0.0, step = None, change_callback=None)
+.. py:class:: Slider(xy, size, align = "center", parent = None, style = None, max_val=1.0, min_val=0.0, step = None, callback=None)
 
     Base: :class:`Widget`
     
@@ -194,11 +194,11 @@ There are several different elements that can be used in an interface, known as 
     :param float max_val: maximum value for the slider
     :param float min_val: minimum value for the slider
     :param step: amount to jump by when clicked outside the slider handle. Defaults to one tenth of ``max_val-min_val``
-    :param callable change_callback: function called when the slider is moved. Passed a float which is the sliders new value
+    :param callable callback: function called when the slider is moved. Passed a float which is the sliders new value
     
     :Attributes:
         - *value* -- Current value of the slider
-        - *change_callback* -- Function to be called when the slider is moved. A single float is passed. 
+        - *callback* -- Function to be called when the slider is moved. A single float is passed. 
           See :ref:`Callbacks` for more information
 
     :Style Attributes:
@@ -215,7 +215,7 @@ There are several different elements that can be used in an interface, known as 
 
             gui.Slider((0,0),(200,30),align="topleft",
                        max_val=100, min_val=40, step=10, 
-                       change_callback = lambda x: cb("Slider H",x))
+                       callback = lambda x: cb("Slider H",x))
 
 .. py:class:: DropDown(xy, size, align="center", parent=None, style=None, values=None, callback=None)
 
