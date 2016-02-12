@@ -22,7 +22,7 @@ class ModalWindow(Container):
         self.callback = callback
         self.cancellable = cancellable
         self.cancelling = False
-        tingbot.input.set_modal_handler(self.event_handler)
+        tingbot.input.push_touch_handler(self.touch_handler)
         # FIXME###
         # set root widget to invisible
         #make copy of screen
@@ -31,7 +31,7 @@ class ModalWindow(Container):
         tingbot.screen.surface.fill(
             (128, 128, 128), special_flags=pygame.BLEND_RGBA_SUB)
 
-    def event_handler(self, event):
+    def touch_handler(self, event):
         action = None
         if event.type == pygame.MOUSEBUTTONDOWN:
             action = "down"
@@ -62,7 +62,7 @@ class ModalWindow(Container):
 
     def close(self, ret_value=None):
         """Close this modal window and return ret_value"""
-        tingbot.input.unset_modal_handler(self.event_handler)
+        tingbot.input.pop_touch_handler(self.touch_handler)
         self.visible = False
         #restore old appearance of screen
         tingbot.screen.surface.blit(self.screen_copy,(0,0))
