@@ -81,7 +81,23 @@ on the screen otherwise.
 
                 scroller = gui.ScrollArea((100,0),(135,220),align="topleft",canvas_size=(500,500))
 
+.. py:class:: RootWidget()
 
+    Base: :class:`Container`
+    
+    There is only ever one RootWidget and it is generated automatically. All widgets that do not explicitly have
+    a parent set are children of this widget.
+    
+.. py:function:: get_root_widget()
+
+    Returns the RootWidget
+    
+.. py:function:: show_all()
+
+    Tells the RootWidget to display all it's children. It's generally useful to call this function
+    immediately before calling the main run loop - this ensures that all the children you have added are drawn
+    on the screen when the program starts.
+    
 .. py:class:: NoteBook(pairs)
 
     Base: object

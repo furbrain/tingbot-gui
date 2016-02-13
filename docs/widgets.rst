@@ -35,7 +35,8 @@ There are several different elements that can be used in an interface, known as 
         
     .. py:method:: update(self,upwards=True,downwards=False)
     
-        Call this method to redraw the widget. The widget will only be drawn if visible
+        Call this method to redraw the widget. The widget will only be drawn if visible. It is
+        usually wise to call this function after you have altered a widget.
         
         :param upwards: set to True to ask any parents (and their parents) to redraw themselves
         :param downwards: set to True to make any children  redraw themselves
