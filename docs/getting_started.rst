@@ -20,11 +20,11 @@ So first of all lets import all the relevant libraries
        pass
    
    screen.fill("black")
-   gui.get_root_widget().update(downwards=True)    
+   gui.show_all()  
    run(loop)
 
 This imports the ``tingbot_gui`` library and renames it ``gui`` to simplify the typing. We create an (empty) run loop,
-and set the whole system going. The second to last line ensures that all of the widgets added
+and set the whole system going. The second to last line ensures that all of the widgets added are shown.
 All the rest of the code below should be inserted just below the line that states
 ``#all the rest of the code goes here``
 

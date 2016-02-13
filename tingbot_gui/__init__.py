@@ -14,6 +14,9 @@ from .dialog import ModalWindow, MessageBox
 from .popupmenu import PopupMenu, PopupButton
 from .style import Style, get_default_style
 
+def show_all():
+    get_root_widget().update(downwards=True)
+
 __author__ = 'Phil Underwood'
 __email__ = 'beardydoc@gmail.com'
 __version__ = '0.3'

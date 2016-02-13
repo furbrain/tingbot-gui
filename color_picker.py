@@ -34,6 +34,6 @@ def loop():
    pass
    
 screen.fill("black")
-gui.get_root_widget().update(downwards=True)    
+gui.show_all()
 run(loop)
 

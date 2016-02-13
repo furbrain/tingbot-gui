@@ -172,7 +172,7 @@ nb = gui.NoteBook(zip(notebook_buttons,notebook_panels),callback = nb_cb)
 print "Current notebook tab: " + nb.selected.label
 
 gui.get_root_widget().fill(notebook_style.bg_color)
-gui.get_root_widget().update(downwards=True)
+gui.show_all()
 def loop():
     pass
 
