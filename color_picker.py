@@ -9,6 +9,7 @@ blue = gui.Slider((290,20),(25,150),align="top",max_val=255)
 def display():
    color = (int(red.value),int(green.value),int(blue.value))
    screen.rectangle((20,20),(120,150),color,align="topleft")
+   gui.MessageBox(message="HTML code is #%02X%02X%02X" % color)
    
 button = gui.Button((240,200),(80,30),align="top",label="Display",callback=display)  
 

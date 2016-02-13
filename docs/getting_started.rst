@@ -114,6 +114,20 @@ Finally we use a special keyword ``lambda``. This creates a temporary function, 
        
 See the section on :ref:`Callbacks` for more on how to use callbacks and lambda.
 
+Add an alert
+------------
+
+Lets add a little pop-up notice with the Web RGB code when we display our colour. Lets change the display function.
+
+.. code-block:: python
+
+   def display():
+       color = (int(red.value),int(green.value),int(blue.value))
+       screen.rectangle((20,20),(100,100),color,align="topleft")
+       gui.MessageBox(message="RGB code is #%02X%02X%02X" % color)
+      
+This will bring up a window on top of the screen to tell you what the Web RGB code is
+
 .. rubric:: Footnotes
 
 .. [#] I'm English, so I use the english spelling of *colour*. However, historically the majority of software was
