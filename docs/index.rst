@@ -35,11 +35,4 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. rubric:: Footnotes
 
-.. [#] I'm English, so I use the english spelling of *colour*. However, historically the majority of software was
-       written in the USA, so in software, the standard is to spell it *color*.
-.. [#] Actually there are several ways of specifying a colour, many of which are better than simple red
-       green and blue. However, red green and blue is simplest, so we'll stick with that for this example.
-       See the Wikipedia entry on `color spaces <http://en.wikipedia.org/wiki/Color_space>`_ for more detail
-       than you can possibly want.

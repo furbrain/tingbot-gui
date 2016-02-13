@@ -143,9 +143,10 @@ def add_item():
 
 def remove_last_item():
     cb("Remove dynamic item",'last')
-    scroller.scrolled_area.remove_child(button_list.pop())
-    scroller.resize_canvas((135,len(button_list)*25))
-    scroller.update(downwards=True)
+    if button_list:
+        scroller.scrolled_area.remove_child(button_list.pop())
+        scroller.resize_canvas((135,max(len(button_list)*25,10)))
+        scroller.update(downwards=True)
     
 def remove_all():
     cb("Remove dynamic items",'all')
