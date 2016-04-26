@@ -49,7 +49,8 @@ gui.Slider((0,0),(200,30),align="topleft",
            callback = lambda x: cb("Slider H",x))
 gui.Slider((0,40),(30,180),align="topleft",
            parent=slider_panel,
-           callback = lambda x: cb("Slider V",x))
+           callback = lambda x: cb("Slider V",x),
+           release_callback = lambda x: cb("Slider V Release",x))
 
 #text panel
 text_panel = gui.ScrollArea(canvas_size=(500,500),

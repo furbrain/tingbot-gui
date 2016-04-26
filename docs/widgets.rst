@@ -196,10 +196,12 @@ There are several different elements that can be used in an interface, known as 
     :param float min_val: minimum value for the slider
     :param step: amount to jump by when clicked outside the slider handle. Defaults to one tenth of ``max_val-min_val``
     :param callable callback: function called when the slider is moved. Passed a float which is the sliders new value
+    :param release_callback callback: function called when the slider is released. Passed a float which is the sliders latest value
     
     :Attributes:
         - *value* -- Current value of the slider
         - *callback* -- Function to be called when the slider is moved. A single float is passed. 
+        - *release_callback* -- Function to be called when the slider has finished moving. A single float is passed. 
           See :ref:`Callbacks` for more information
 
     :Style Attributes:
