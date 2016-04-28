@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+
+#this file allows us to test that the library correctl raises exceptions when appropriate
 import tingbot_gui as gui
 
 def test_exception(exception,code):
