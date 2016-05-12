@@ -43,7 +43,7 @@ class Button(Widget):
             self.pressed = True
             self.update()
             if self.long_click_callback:
-                once(seconds=1.5)(partial(self._long_click,self.click_count))
+                once(seconds=1.0)(partial(self._long_click,self.click_count))
         elif action in ("up","drag","drag_up") and self.pressed:
             self.click_count += 1
             self.pressed = False
