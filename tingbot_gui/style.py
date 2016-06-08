@@ -9,6 +9,7 @@ defaults = {
 
 
     'button_color': (0, 0, 180),
+    'button_inverting': True,
     'button_pressed_color': (0, 0, 250),
     'button_rounding': 10,
     'button_text_color': 'white',
