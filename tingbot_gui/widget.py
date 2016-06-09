@@ -73,7 +73,10 @@ class Widget(Surface):
         self.surface = surface.subsurface(self.rect)
         
     def text(self, string, xy=None, size=None, color='grey', align='center', font=None, font_size=32, antialias=None):
-        """render text to a specific area, will adjust font size to try and fit text into specified size"""
+        """
+        render text to a specific area, will adjust font size to try and fit text into specified size
+        returns a list of offsets for each letter
+        """
         string = unicode(string)
         if size is None:
             size = self.size
@@ -96,4 +99,7 @@ class Widget(Surface):
         text_image = Image(surface=font_obj.render(string, antialias, _color(color)))
 
         self.image(text_image, xy, align=align)
-
+        if string:
+            return [x[4] for x in font_obj.metrics(string)]
+        else:
+            return []

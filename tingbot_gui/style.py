@@ -38,6 +38,11 @@ defaults = {
 
     'popup_bg_color': (0, 0, 60),
     'popupmenu_button_size': (140, 30),
+    
+    'keyboard_text_color': (255,255,255),
+    'keyboard_text_font': None,
+    'keyboard_text_size': 16,
+    'keyboard_box_bg_color': (255,255,255,75),
 }
 
 
