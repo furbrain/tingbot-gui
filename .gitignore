@@ -15,6 +15,7 @@ docs/_build
 build/
 dist/
 tingbot_gui.egg-info/
+/.eggs/
 
 #coverage files
 htmlcov/
