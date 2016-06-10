@@ -59,8 +59,11 @@ class Style(object):
                     "__init__() got an unexpected keyword argument '%s'" %
                     arg)
 
-    def copy(self):
-        return copy.copy(self)
+    def copy(self, **kwargs):
+        dup = copy.copy(self.__dict__)
+        dup.update(kwargs)
+        return Style(**dup)
+        
 default_style = Style()
 
 
