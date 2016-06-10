@@ -75,15 +75,16 @@ class Button(Widget):
 
     def draw_button(self):
         (w, h) = self.size
+        two_images = self.label.startswith("image:") and "|"  in self.label
         if self.style.button_inverting:
-            if self.pressed:
+            if self.pressed and not two_images:
                 self.fill(self.style.button_color)
             else:
                 self.fill(self.style.bg_color)
                 pygame.draw.rect(self.surface, self.style.button_color, [0, 0, w, h], 1)
         else:
             self.fill(self.style.bg_color)
-            if self.pressed:
+            if self.pressed and not two_images:
                 color = self.style.button_pressed_color
             else:
                 color = self.style.button_color
@@ -103,7 +104,12 @@ class Button(Widget):
     def draw(self):
         self.draw_button()
         if self.label.startswith("image:"):
-            self.image(self.label[6:])
+            if self.pressed and '|' in self.label:
+                image = self.label[6:].split("|")[1]
+            else:
+                image = self.label[6:].split("|")[0] #still works if 
+            
+            self.image(image)
         else:
             if self.pressed and self.style.button_inverting:
                 color = self.style.bg_color

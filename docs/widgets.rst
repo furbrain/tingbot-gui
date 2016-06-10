@@ -81,6 +81,8 @@ There are several different elements that can be used in an interface, known as 
     :Attributes:
         - *label* -- Text to be displayed on the button. If starts with ``image:`` then
           the rest of the string specifies an image file to be displayed on the button.
+          Two image files can be specified by separating them with a `|`. The second image will
+          be used when the button is pressed
         - *callback* -- Function to be called when button is clicked. No arguments passed. 
         - *long_click_callback* -- Function to be called when button is pressed for more than 1.5 seconds. No arguments passed. 
           See :ref:`Callbacks` for more information
@@ -103,7 +105,7 @@ There are several different elements that can be used in an interface, known as 
             button1 = gui.Button((0,0),(100,25),align="topleft",label="Button 1", 
                          callback = lambda: cb("Button 1"), 
                          long_click_callback = lambda: cb("Button 1(long"))
-            button2 = gui.Button((0,30),(100,25),align="topleft",label="image:player_play.png", 
+            button2 = gui.Button((0,30),(100,25),align="topleft",label="image:player_play.png|player_play_pressed.png", 
                                  callback = lambda: cb("Button 2(image)")) 
 
 
