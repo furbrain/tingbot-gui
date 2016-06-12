@@ -61,6 +61,8 @@ There are several different elements that can be used in an interface, known as 
         :param int font_size: size of font to use
         :param bool antialias: whether to antialias the text
         
+        :returns: a list of the x offsets after each letter
+        
 .. py:class:: Button(xy, size, align="center", parent=None, style=None, label="OK", callback=None, long_click_callback)
 
     Base: :class:`Widget`

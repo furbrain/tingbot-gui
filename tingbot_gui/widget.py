@@ -100,6 +100,11 @@ class Widget(Surface):
 
         self.image(text_image, xy, align=align)
         if string:
-            return [x[4] for x in font_obj.metrics(string)]
+            total = 0
+            result = []
+            for metric in font_obj.metrics(string):
+                total+=metric[4]
+                result.append(total)
+            return result
         else:
             return []
