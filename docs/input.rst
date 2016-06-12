@@ -37,6 +37,17 @@ There are two widgets that can be used to enter text, and one dialog
         - *statictext_color* -- color to use for text at top of screen (i.e. Cancel, Title, Ok)
         - *statictext_font* -- font to use (default)
         - *statictext_font_size* -- font size to use
+
+    :Example:
+        .. code-block:: python
+
+            def cb(text):
+                print text
+
+            Keyboard("Text", "Happy World!", callback=cb)
+
+
+        .. image:: images/Keyboard.png
         
 .. py:class:: TextEntry(xy, size, align="center", parent=None, style=None, label="", text="", callback=None)
 
