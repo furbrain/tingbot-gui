@@ -14,6 +14,7 @@ from .dialog import ModalWindow, MessageBox
 from .popupmenu import PopupMenu, PopupButton
 from .style import Style, get_default_style
 from .keyboard import Keyboard
+from .textentry import TextEntry, PasswordEntry
 
 def show_all():
     get_root_widget().update(downwards=True)

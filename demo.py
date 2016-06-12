@@ -117,6 +117,10 @@ gui.Button((0,60),(80,25),align="topleft",parent = dialog_panel,
            label="Popup",callback=popup)
 gui.Button((0,90),(80,25),align="topleft",parent = dialog_panel, 
            label="Popup2",callback=lambda: popup((310,230)))
+gui.TextEntry((0,120),(160,25),align="topleft",parent = dialog_panel,
+           label="Text",callback=lambda x: cb("TextEntry",x))
+gui.PasswordEntry((0,150),(160,25),align="topleft",parent = dialog_panel,
+           label="Text",callback=lambda x: cb("PasswordEntry",x))
 
 #dynamic list panel
 dynamic_panel = gui.Panel(**panel_layouts)
