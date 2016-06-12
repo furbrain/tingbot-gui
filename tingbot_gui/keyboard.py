@@ -107,14 +107,13 @@ class KbText(Widget):
         self.update()
 
                   
-class Keyboard(ModalWindow):
+class KeyboardPanel(Panel):
     keys = [(u'qwertyuiop', u'asdfghjkl', u'zxcvbnm'), 
             (u'QWERTYUIOP', u'ASDFGHJKL', u'ZXCVBNM'), 
             (u'1234567890', u'-/:;()£&@', u'.,?!\'"`'), 
             (u'[]{}#%^*+=', u'_\|~<>€$¥', u'.,?!\'"·')]
-    def __init__(self,title,text=u"",style=None,callback=None):
-        super(Keyboard, self).__init__((0,0), (320,240), "topleft", style, callback=callback)
-        
+    def __init__(self,label,text=u"", parent=None, style=None):
+        super(KeyboardPanel, self).__init__((0,0), (320,240), "topleft", parent, style)
         self.text = KbText((7,46), (307,36), 'topleft', self, self.style, text)
         self.layout = 0
         #find image files
@@ -125,12 +124,12 @@ class Keyboard(ModalWindow):
         smiley_images = get_image_location("smiley")
         style14 = self.style.copy(button_text_font_size=14)
         style13 = self.style.copy(button_text_font_size=13)
-        style12 = self.style.copy(button_text_font_size=12)
+        style12 = self.style.copy(button_text_font_size=12, statictext_font_size=12)
         
         #create all our buttons
         cancel_button = CancelButton((16,23), (60,24), "left", self, style12, "Cancel", "left")
         ok_button = OkButton((304,23), (60,24), "right", self, style12, "OK", "right")
-        self.title = StaticText((160,23),(160,24),"center",self,style12,title,"center")
+        self.title = StaticText((160,23),(160,24),"center",self,style12,label,"center")
         for row,x,y in zip(zip(*self.keys),(7,22,53),(0,33,66)):
             for i,letter in enumerate(zip(*row)):
                 KbButton((x+i*31,105+y),(28,28),self,letter,style14)
@@ -152,4 +151,12 @@ class Keyboard(ModalWindow):
         
     def emoji(self):
         MessageBox(message="Sorry, no emoji's yet")
+        
+    def close(self,value=None):
+        self.parent.close(value)
+        
+class Keyboard(ModalWindow):
+    def __init__(self, label, text=u"", style=None, callback=None):
+        super(Keyboard, self).__init__((0,0), (320,240), "topleft", style, callback=callback)
+        panel = KeyboardPanel(label, text, self, style)
         
