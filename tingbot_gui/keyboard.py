@@ -76,13 +76,16 @@ class KbText(Widget):
               align='left',
               font=self.style.keyboard_text_font,
               font_size=self.style.keyboard_text_size)
-        x = sum(self.offsets[:self.cursor_pos])+9
+        if self.cursor_pos:
+            x = self.offsets[self.cursor_pos-1]+9
+        else:
+            x = 9
         y1 = (self.size[1] - self.style.keyboard_text_size)//2
         y2 = (self.size[1] + self.style.keyboard_text_size)//2
         pygame.draw.line(self.surface,self.style.keyboard_text_color,(x,y1),(x,y2))
                   
     def add_letter(self,letter):
-        self.string = self.string+letter
+        self.string = self.string[:self.cursor_pos]+letter+self.string[self.cursor_pos:]
         self.cursor_pos += len(letter)
         self.update()
         
@@ -91,6 +94,16 @@ class KbText(Widget):
             self.string  = self.string[:self.cursor_pos-1] + self.string[self.cursor_pos:]
             self.cursor_pos -= 1
             self.update()
+            
+    def on_touch(self, xy, action):
+        x = xy[0]
+        for i,offset in enumerate(self.offsets):
+            if (x-9) < offset:
+                self.cursor_pos=i
+                break
+            else:
+                self.cursor_pos = len(self.string)
+        self.update()
 
                   
 class Keyboard(ModalWindow):
