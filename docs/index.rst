@@ -13,6 +13,7 @@ Contents:
 
    getting_started
    widgets
+   input
    containers
    dialogs
    style
