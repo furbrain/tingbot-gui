@@ -59,6 +59,7 @@ class CancelButton(StaticText):
             self.parent.close(None)
             
 class KbText(Widget):
+    """A widget to display text with a cursor"""
     def __init__(self, xy, size, align, parent, style, text=u""):
         super(KbText,self).__init__(xy, size, align, parent, style)
         self.string = text
@@ -66,23 +67,23 @@ class KbText(Widget):
         
     def draw(self):
         self.fill(self.style.bg_color)
-        self.fill(self.style.keyboard_box_bg_color)
-        pygame.draw.rect(self.surface,self.style.keyboard_text_color,self.local_rect,1)
+        self.fill(self.style.textentry_bg_color)
+        pygame.draw.rect(self.surface,self.style.textentry_text_color,self.local_rect,1)
         pos = _xy_from_align('left', self.size)
         pos = (pos[0]+9,pos[1])
         self.offsets = self.text(self.string,
               xy=pos,
-              color=self.style.keyboard_text_color,
+              color=self.style.textentry_text_color,
               align='left',
-              font=self.style.keyboard_text_font,
-              font_size=self.style.keyboard_text_size)
+              font=self.style.textentry_text_font,
+              font_size=self.style.textentry_text_size)    
         if self.cursor_pos:
             x = self.offsets[self.cursor_pos-1]+9
         else:
             x = 9
-        y1 = (self.size[1] - self.style.keyboard_text_size)//2
-        y2 = (self.size[1] + self.style.keyboard_text_size)//2
-        pygame.draw.line(self.surface,self.style.keyboard_text_color,(x,y1),(x,y2))
+        y1 = (self.size[1] - self.style.textentry_text_size)//2
+        y2 = (self.size[1] + self.style.textentry_text_size)//2
+        pygame.draw.line(self.surface,self.style.textentry_text_color,(x,y1),(x,y2))
                   
     def add_letter(self,letter):
         self.string = self.string[:self.cursor_pos]+letter+self.string[self.cursor_pos:]
