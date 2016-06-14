@@ -99,12 +99,8 @@ class ViewPort(Container):
         self.set_y(self.flick_position[1])
         #check to see if finished
         if self.velocity==[0,0]:
-            once()(self.end_flick) #queue up an end_flick - can't be called directly from within flicker            
-        pass
-        
-    def end_flick(self):
-        self.flicking = False
-        main_run_loop.remove_timer(self.flicker)
+            self.flicking = False
+            main_run_loop.remove_timer(self.flicker)
             
     def set_sliders(self, vslider, hslider):
         self.vslider = vslider
