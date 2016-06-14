@@ -10,7 +10,7 @@ from .container import Container, Panel, get_root_widget
 from .scrollarea import ScrollArea
 from .notebook import NoteBook
 
-from .dialog import ModalWindow, MessageBox
+from .dialog import ModalWindow, MessageBox, message_box
 from .popupmenu import PopupMenu, PopupButton
 from .style import Style, get_default_style
 from .keyboard import Keyboard
