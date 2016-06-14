@@ -47,7 +47,7 @@ class PopupMenu(ModalWindow):
         scroller = ScrollArea(
             (0, 0), size=menu_window.size, align="topleft",
             style=self.style,
-            parent=self,
+            parent=self.panel,
             canvas_size=list_size)
 
         # populate popupmenu
