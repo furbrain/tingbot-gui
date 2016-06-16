@@ -1,12 +1,12 @@
 from functools import partial
 import pygame
-from .dialog import ModalWindow
+from .dialog import Dialog
 from .scrollarea import ScrollArea
 from .button import Button
 from .style import get_default_style
 
 
-class PopupMenu(ModalWindow):
+class PopupMenu(Dialog):
 
     """A popupmenu that is displayed on top of the screen"""
 

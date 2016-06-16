@@ -9,13 +9,13 @@ from .statictext import StaticText
 from .button import Button
 
 
-class ModalWindow(Container):
+class Dialog(Container):
 
-    """A ModalWindow sits on top of the gui and intercepts all events. Useful for alerts, dialog boxes and pop-up menus"""
+    """A Dialog sits on top of the gui and intercepts all events. Useful for alerts, dialog boxes and pop-up menus"""
 
-    def __init__(self, xy, size, align="center",
+    def __init__(self, xy=None, size=None, align="center",
                  style=None, cancellable=True, callback=None, transition="popup"):
-        """Create a Modal window with size and position specified by xy, size and align
+        """Create a Dialog with size and position specified by xy, size and align
         If cancellable is True, then can be cancelled by clicking outside of the window
         callback will be called with None if cancelled
         if transition is popup, then the window will appear according to xy and size
@@ -24,7 +24,7 @@ class ModalWindow(Container):
         if transition if slide_up or slide_down then it will slide in from the specified side;
             width must be the width of the screen
         """
-        super(ModalWindow, self).__init__(
+        super(Dialog, self).__init__(
             (160,120), (320,240), "center", parent=None, style=style)
         self.callback = callback
         self.cancellable = cancellable
@@ -115,7 +115,7 @@ class ModalWindow(Container):
         return self.return_value
 
     def close(self, ret_value=None):
-        """Close this modal window and return ret_value"""
+        """Close this dialog and return ret_value"""
         self.return_value = ret_value
         #restore old appearance of screen
         if self.transition == "popup":
@@ -135,7 +135,7 @@ class ModalWindow(Container):
             tingbot.main_run_loop.stop()
 
 
-class MessageBox(ModalWindow):
+class MessageBox(Dialog):
 
     """A simple message box for alerting the user"""
 

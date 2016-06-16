@@ -5,7 +5,7 @@ There are two widgets that can be used to enter text, and one dialog
 
 .. py:class:: Keyboard(label, text="", style=None, callback=None)
 
-    Base: :class:`ModalWindow`
+    Base: :class:`Dialog`
     
     This dialog box allows you to enter text using an on-screen keyboard. It has
     lower case, upper case, number and symbols screen. There is a button to add emojis,

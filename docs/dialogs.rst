@@ -4,12 +4,12 @@ Dialog windows
 Dialog windows are modal - this means that only the specified window is active while it is open
 This is particularly useful for alert boxes and also pop-up menus
 
-.. py:class:: ModalWindow(xy=None, size=None, align="center", style=None, \
+.. py:class:: Dialog(xy=None, size=None, align="center", style=None, \
                           buttons=None, message="", cancellable=True, callback=None)
 
     Base: :class:`Container`
 
-    ModalWindow is a base class you can use to create your own dialogs. You will need to
+    Dialog is a base class you can use to create your own dialogs. You will need to
     override the draw method. Call close to make the dialog disappear
 
     :param xy: position that the dialog will be drawn
@@ -44,7 +44,7 @@ This is particularly useful for alert boxes and also pop-up menus
 .. py:class:: MessageBox(xy=None, size=None, align="center", style=None,\
                          buttons=None, message="", cancellable=True, callback=None)
 
-    Base: :class:`ModalWindow`
+    Base: :class:`Dialog`
 
     A MessageBox allows you to alert the user to simple events, and also ask simple Yes/No type questions
     
@@ -93,7 +93,7 @@ This is particularly useful for alert boxes and also pop-up menus
     
 .. py:class:: PopupMenu(xy, style=None, cancellable=True, menu_items=None, button_size=None)
 
-    Base: :class:`ModalWindow`
+    Base: :class:`Dialog`
     
     A PopupMenu (also known as a context menu) allows you to present the user with a menu 
     

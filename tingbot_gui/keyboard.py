@@ -4,7 +4,7 @@ from functools import partial
 
 import pygame
 
-from .dialog import ModalWindow, MessageBox
+from .dialog import Dialog, MessageBox
 from .button import Button
 from .container import Panel
 from .statictext import StaticText
@@ -155,7 +155,7 @@ class KeyboardPanel(Panel):
     def close(self,value=None):
         self.parent.close(value)
         
-class Keyboard(ModalWindow):
+class Keyboard(Dialog):
     def __init__(self, label, text=u"", style=None, callback=None):
         super(Keyboard, self).__init__((0,0), (320,240), "topleft", style, callback=callback)
         panel = KeyboardPanel(label, text, self, style)
