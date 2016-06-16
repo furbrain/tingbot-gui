@@ -93,11 +93,19 @@ dropdown3 = gui.DropDown((0,190),(100,25),align="topleft",
                          callback = lambda x,y:cb("DropDown3",(x,y)))
 
 #dialog panel
+class DialogDemo(gui.Dialog):
+    def __init__(self,transition):
+        if transition in ('slide_left','slide_right'):
+            size = (150,240)
+        if transition in ('slide_up','slide_down'):
+            size = (320,150)
+        super(DialogDemo,self).__init__(size=size,transition=transition)
+        button = gui.Button(xy=(75,75), size=(50,50), label="ok", callback=self.close, parent=self.panel)
+   
 dialog_panel = gui.Panel(**panel_layouts)
 
 def alert():
-    gui.MessageBox(message="Alert triggered",
-                   callback = lambda x:cb("Alert dialog",x))
+    cb("Alert dialog",gui.message_box(message="Alert triggered"))
     
 def question():
     gui.MessageBox(message="Do you like cheese?",
@@ -108,6 +116,11 @@ def question():
 def popup(xy = (160,120)):
     gui.PopupMenu(xy, menu_items = [("File",lambda: cb("File (Popup)")),
                                     ("Save",lambda: cb("Save (Popup)"))])
+                                    
+def slide_in():
+    for x in ['slide_up','slide_left','slide_down','slide_right']:
+        cb("Dialog slide",x)
+        DialogDemo(x).run()
     
 gui.Button((0,0),(80,25),align="topleft",parent = dialog_panel, 
            label="Alert",callback=alert)
@@ -117,9 +130,11 @@ gui.Button((0,60),(80,25),align="topleft",parent = dialog_panel,
            label="Popup",callback=popup)
 gui.Button((0,90),(80,25),align="topleft",parent = dialog_panel, 
            label="Popup2",callback=lambda: popup((310,230)))
-gui.TextEntry((0,120),(160,25),align="topleft",parent = dialog_panel,
+gui.Button((0,120),(80,25),align="topleft",parent = dialog_panel, 
+           label="Slide-ins",callback=slide_in)
+gui.TextEntry((0,150),(160,25),align="topleft",parent = dialog_panel,
            label="Text",callback=lambda x: cb("TextEntry",x))
-gui.PasswordEntry((0,150),(160,25),align="topleft",parent = dialog_panel,
+gui.PasswordEntry((0,180),(160,25),align="topleft",parent = dialog_panel,
            label="Text",callback=lambda x: cb("PasswordEntry",x))
 
 #dynamic list panel

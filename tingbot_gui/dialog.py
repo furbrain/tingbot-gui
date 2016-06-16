@@ -4,6 +4,7 @@ import tingbot
 import pygame
 import pdb
 from .container import Container, get_root_widget, Panel
+
 from .scrollarea import VirtualPanel
 from .statictext import StaticText
 from .button import Button
@@ -24,6 +25,10 @@ class Dialog(Container):
         if transition if slide_up or slide_down then it will slide in from the specified side;
             width must be the width of the screen
         """
+        if xy == None:
+            xy = (160,120)
+        if size == None:
+            size = (320,240)
         super(Dialog, self).__init__(
             (160,120), (320,240), "center", parent=None, style=style)
         self.callback = callback
@@ -32,14 +37,12 @@ class Dialog(Container):
         self.blocking = False
         self.return_value = None
         self.transition = transition
-        tingbot.input.push_touch_handler(self.touch_handler)
         #make copy of screen
         self.screen_copy = tingbot.screen.surface.copy()
         if transition=="popup":
             # grey out whole screen
             tingbot.screen.surface.fill(
                 (128, 128, 128), special_flags=pygame.BLEND_RGBA_SUB)
-            print xy,size,align
             self.panel = Panel(xy,size,align,self,style)
         else:
             #some kind of animation
@@ -47,7 +50,14 @@ class Dialog(Container):
             self.bg_pos = [0,0]
             if transition=="slide_down":
                 self.panel_pos = [0,-size[1]]
+            elif transition=="slide_up":
+                self.panel_pos = [0,240]
+            elif transition=="slide_right":
+                self.panel_pos = [-size[0],0]
+            elif transition=="slide_left":
+                self.panel_pos = [320,0]
             tingbot.every(seconds=0.02)(self.animate)
+        tingbot.input.push_touch_handler(self.touch_handler)
               
     def touch_handler(self, event):
         action = None
@@ -65,7 +75,7 @@ class Dialog(Container):
 
     def on_touch(self, pos, action):
         if self.transition=="popup":
-            rect = self.panel.get_rect()
+            rect = self.panel.rect
         else:
             rect = pygame.Rect(self.panel_pos,self.panel.size)
         within_widget = rect.collidepoint(pos)
@@ -77,7 +87,11 @@ class Dialog(Container):
                     self.cancelling = False
                 else:
                     self.close()
-        super(ModalWindow, self).on_touch(pos, action)
+        if self.transition=="popup":
+            super(Dialog, self).on_touch(pos, action)
+        else:
+            pos = tingbot.graphics._xy_subtract(pos, self.panel_pos)
+            self.panel.on_touch(pos,action)                   
         
     def animate(self):
         change = 10
@@ -85,6 +99,18 @@ class Dialog(Container):
             change = min(change,-self.panel_pos[1])
             self.panel_pos[1] += change
             self.bg_pos[1] += change
+        elif self.transition=="slide_up":
+            change = min(change,self.panel_pos[1]-(240-self.panel.size[1]))
+            self.panel_pos[1] -= change
+            self.bg_pos[1] -= change
+        elif self.transition=="slide_right":
+            change = min(change,-self.panel_pos[0])
+            self.panel_pos[0] += change
+            self.bg_pos[0] += change
+        elif self.transition=="slide_left":
+            change = min(change,self.panel_pos[0]-(320-self.panel.size[0]))
+            self.panel_pos[0] -= change
+            self.bg_pos[0] -= change
         if change<=0:
             tingbot.main_run_loop.remove_timer(self.animate)
         self.update()
@@ -96,6 +122,18 @@ class Dialog(Container):
             change = min(change,self.bg_pos[1])
             self.panel_pos[1] -= change
             self.bg_pos[1] -= change
+        elif self.transition=="slide_up":
+            change = min(change,-self.bg_pos[1])
+            self.panel_pos[1] += change
+            self.bg_pos[1] += change
+        elif self.transition=="slide_right":
+            change = min(change,self.bg_pos[0])
+            self.panel_pos[0] -= change
+            self.bg_pos[0] -= change
+        elif self.transition=="slide_left":
+            change = min(change,-self.bg_pos[0])
+            self.panel_pos[0] += change
+            self.bg_pos[0] += change
         self.update()
         self.update(downwards=True)
         if change<=0:
@@ -122,7 +160,11 @@ class Dialog(Container):
             tingbot.screen.surface.blit(self.screen_copy,(0,0))
             self.close_final()
         else:
-            tingbot.main_run_loop.remove_timer(self.animate)
+            try:
+                tingbot.main_run_loop.remove_timer(self.animate)
+            except ValueError:
+                #expect ValueError - may have already removed the animate timer...
+                pass
             tingbot.every(seconds=0.02)(self.deanimate)
             
     def close_final(self,):
