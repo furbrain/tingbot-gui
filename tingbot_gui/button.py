@@ -3,7 +3,6 @@ from functools import partial
 
 from .widget import Widget
 from tingbot.graphics import _color
-from tingbot import once
 
 class Button(Widget):
 
@@ -44,7 +43,9 @@ class Button(Widget):
             self.pressed = True
             self.update()
             if self.long_click_callback:
-                once(seconds=1.0)(partial(self._long_click,self.click_count))
+                self.create_timer(action=partial(self._long_click, self.click_count),
+                                  seconds=1.0,
+                                  repeating=False)
         elif action in ("up","drag","drag_up") and self.pressed:
             self.click_count += 1
             self.pressed = False

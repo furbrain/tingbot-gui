@@ -5,7 +5,6 @@ from .container import Panel, Container
 from .slider import Slider
 from .util import clamp
 from tingbot.graphics import _xy_subtract, _xy_add
-from tingbot import every, once, main_run_loop
 
 
 class VirtualPanel(Panel):
@@ -72,7 +71,7 @@ class ViewPort(Container):
             self.flicking = True
             self.flick_position = [float(i) for i in self.position]
             self.last_flick_time = pygame.time.get_ticks()
-            every(seconds = 1.0/30.0)(self.flicker)
+            self.flick_timer = self.create_timer(self.flicker, seconds = 1.0/30.0)
         else:
             self.flicking = False
             
@@ -100,7 +99,7 @@ class ViewPort(Container):
         #check to see if finished
         if self.velocity==[0,0]:
             self.flicking = False
-            main_run_loop.remove_timer(self.flicker)
+            self.flick_timer.stop()
             
     def set_sliders(self, vslider, hslider):
         self.vslider = vslider

@@ -1,4 +1,5 @@
 import pygame
+from tingbot.run_loop import Timer
 from tingbot.graphics import Surface, Image, screen, _topleft_from_aligned_xy, _xy_add, _font, _color
 from .style import get_default_style
 
@@ -64,6 +65,14 @@ class Widget(Surface):
     @property
     def local_rect(self):
         return pygame.Rect((0,0),self.init_size)
+        
+    def run_loop(self):
+        return self.parent.run_loop()
+        
+    def create_timer(self,action, seconds, repeating=True):
+        timer = Timer(action=action, period=seconds, repeating=repeating, next_fire_time=None)
+        self.run_loop().schedule(timer)
+        return timer
         
     def is_visible(self):
         return self.parent.is_visible() and self.visible

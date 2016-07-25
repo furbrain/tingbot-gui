@@ -35,7 +35,7 @@ class TextEntry(Button):
         self.draw_text(self.string)
         
     def on_click(self):
-        Keyboard(self.label, self.string, self.style, self.text_entered)
+        Keyboard(self.label, self.string, self.style, self.text_entered).run()
         
     def text_entered(self,text):
         if text is not None:
@@ -52,5 +52,5 @@ class PasswordEntry(TextEntry):
         self.draw_text(u'•'*len(self.string))
     
     def on_click(self):
-        Keyboard(self.label, '', self.style, self.text_entered)
+        Keyboard(self.label, '', self.style, self.text_entered).run()
 

@@ -72,7 +72,7 @@ button_panel = gui.ScrollArea(canvas_size=panel_layouts['size'],**panel_layouts)
 button1 = gui.Button((0,0),(100,25),align="topleft",label="Button 1", 
                      parent = button_panel.scrolled_area, 
                      callback = lambda: cb("Button 1"), 
-                     long_click_callback = lambda: cb("Button 1(long"))
+                     long_click_callback = lambda: cb("Button 1(long)"))
 button2 = gui.Button((0,30),(100,25),align="topleft",label="image:player_play.png", 
                      parent = button_panel.scrolled_area, 
                      callback = lambda: cb("Button 2(image)")) 
@@ -86,7 +86,7 @@ dropdown1 = gui.DropDown((0,90),(100,25),align="topleft",
 dropdown2 = gui.DropDown((0,120),(100,25),align="topleft", 
                          parent = button_panel.scrolled_area, 
                          values = range(100),
-                         callback = lambda x,y:cb("DropDown1",(x,y)))
+                         callback = lambda x,y:cb("DropDown2",(x,y)))
 dropdown3 = gui.DropDown((0,190),(100,25),align="topleft", 
                          parent = button_panel.scrolled_area, 
                          values = ("DD 3","two",3,"ridiculously long text here"),
@@ -108,14 +108,15 @@ def alert():
     cb("Alert dialog",gui.message_box(message="Alert triggered"))
     
 def question():
-    gui.MessageBox(message="Do you like cheese?",
-                   buttons=["Yes","No","Maybe"],
-                   cancellable=False,
-                   callback = lambda x:cb("Question dialog",x))
+    msg = gui.MessageBox(message="Do you like cheese?",
+                         buttons=["Yes","No","Maybe"],
+                         cancellable=False,
+                         callback = lambda x:cb("Question dialog",x))
+    msg.run()
 
 def popup(xy = (160,120)):
-    gui.PopupMenu(xy, menu_items = [("File",lambda: cb("File (Popup)")),
-                                    ("Save",lambda: cb("Save (Popup)"))])
+    gui.popup_menu(xy, menu_items = [("File",lambda: cb("File (Popup)")),
+                                     ("Save",lambda: cb("Save (Popup)"))])
                                     
 def slide_in():
     for x in ['slide_up','slide_left','slide_down','slide_right']:
@@ -133,9 +134,9 @@ gui.Button((0,90),(80,25),align="topleft",parent = dialog_panel,
 gui.Button((0,120),(80,25),align="topleft",parent = dialog_panel, 
            label="Slide-ins",callback=slide_in)
 gui.TextEntry((0,150),(160,25),align="topleft",parent = dialog_panel,
-           label="Text",callback=lambda x: cb("TextEntry",x))
+           label="Text Entry",callback=lambda x: cb("TextEntry",x))
 gui.PasswordEntry((0,180),(160,25),align="topleft",parent = dialog_panel,
-           label="Text",callback=lambda x: cb("PasswordEntry",x))
+           label="Password",callback=lambda x: cb("PasswordEntry",x))
 
 #dynamic list panel
 dynamic_panel = gui.Panel(**panel_layouts)

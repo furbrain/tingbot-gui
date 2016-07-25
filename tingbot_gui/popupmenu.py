@@ -63,10 +63,12 @@ class PopupMenu(Dialog):
         self.update(downwards=True)
 
     def button_press(self, label, item_callback):
-        self.close()
+        self.close(label)
         if item_callback:
             item_callback()
 
+def popup_menu(xy, style=None, cancellable=True, menu_items=None, button_size=None):
+    return PopupMenu(xy, style, cancellable, menu_items, button_size).run()
 
 class PopupButton(Button):
 

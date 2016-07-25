@@ -4,7 +4,7 @@ from functools import partial
 
 import pygame
 
-from .dialog import Dialog, MessageBox
+from .dialog import Dialog, message_box
 from .button import Button
 from .container import Panel
 from .statictext import StaticText
@@ -150,7 +150,7 @@ class KeyboardPanel(Panel):
         self.close(self.text.string)
         
     def emoji(self):
-        MessageBox(message="Sorry, no emoji's yet")
+        message_box(message="Sorry, no emoji's yet")
         
     def close(self,value=None):
         self.parent.close(value)
@@ -159,4 +159,7 @@ class Keyboard(Dialog):
     def __init__(self, label, text=u"", style=None, callback=None):
         super(Keyboard, self).__init__((0,0), (320,240), "topleft", style, callback=callback)
         panel = KeyboardPanel(label, text, self, style)
+        
+def show_keyboard(label, text=u"", style=None):
+    return Keyboard(label,text,style).run()
         

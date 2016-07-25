@@ -72,7 +72,7 @@ class DropDown(Button):
     def on_click(self):
         # calculate size of dropdown and size of canvas needed
         items = [(label, partial(self.value_selected,(label,value))) for label,value in self.values]
-        menu = PopupMenu(self.get_abs_position(), style=self.style, menu_items=items, button_size=self.size)
+        menu = PopupMenu(self.get_abs_position(), style=self.style, menu_items=items, button_size=self.size).run()
 
     def value_selected(self, value_pair):
         if value_pair:

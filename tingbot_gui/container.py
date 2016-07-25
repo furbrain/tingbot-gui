@@ -1,6 +1,7 @@
 import pygame
 from tingbot.input import HitArea, touch
 from tingbot.graphics import _xy_subtract, screen
+from tingbot import main_run_loop
 from .style import get_default_style
 from .widget import Widget
 
@@ -123,6 +124,9 @@ class RootWidget(Container):
 
     def is_visible(self):   
         return self.visible
+    
+    def run_loop(self):
+        return main_run_loop
         
     def update(self, upwards=True, downwards=False):
         if self.visible:
@@ -133,6 +137,8 @@ class RootWidget(Container):
 
     def get_abs_position(self):
         return (0, 0)
+        
+    
 
 
 root = RootWidget()

@@ -10,7 +10,7 @@ from .statictext import StaticText
 from .button import Button
 
 
-class Dialog(Container):
+class Dialog(Container,tingbot.input.EventHandler):
 
     """A Dialog sits on top of the gui and intercepts all events. Useful for alerts, dialog boxes and pop-up menus"""
 
@@ -37,6 +37,7 @@ class Dialog(Container):
         self.blocking = False
         self.return_value = None
         self.transition = transition
+        self._run_loop = tingbot.RunLoop(event_handler=self)
         #make copy of screen
         self.screen_copy = tingbot.screen.surface.copy()
         if transition=="popup":
@@ -56,8 +57,7 @@ class Dialog(Container):
                 self.panel_pos = [-size[0],0]
             elif transition=="slide_left":
                 self.panel_pos = [320,0]
-            tingbot.every(seconds=0.02)(self.animate)
-        tingbot.input.push_touch_handler(self.touch_handler)
+            self.animate_timer = self.create_timer(self.animate,seconds=0.02)
               
     def touch_handler(self, event):
         action = None
@@ -112,7 +112,7 @@ class Dialog(Container):
             self.panel_pos[0] -= change
             self.bg_pos[0] -= change
         if change<=0:
-            tingbot.main_run_loop.remove_timer(self.animate)
+            self.animate_timer.stop()
         self.update()
         self.update(downwards=True)
         
@@ -137,7 +137,7 @@ class Dialog(Container):
         self.update()
         self.update(downwards=True)
         if change<=0:
-            tingbot.main_run_loop.remove_timer(self.deanimate)
+            self.deanimate_timer.stop()
             self.close_final()
         
     def draw(self):
@@ -149,7 +149,8 @@ class Dialog(Container):
         
     def run(self):
         self.blocking=True
-        tingbot.main_run_loop.run()
+        self.update(downwards=True)
+        self._run_loop.run()
         return self.return_value
 
     def close(self, ret_value=None):
@@ -160,21 +161,19 @@ class Dialog(Container):
             tingbot.screen.surface.blit(self.screen_copy,(0,0))
             self.close_final()
         else:
-            try:
-                tingbot.main_run_loop.remove_timer(self.animate)
-            except ValueError:
-                #expect ValueError - may have already removed the animate timer...
-                pass
-            tingbot.every(seconds=0.02)(self.deanimate)
+            self.animate_timer.stop()
+            self.deanimate_timer = self.create_timer(self.deanimate,seconds=0.02)
             
     def close_final(self,):
-        tingbot.input.pop_touch_handler(self.touch_handler)
         self.visible = False
         get_root_widget().update(downwards=True)
         if self.callback:
             self.callback(self.return_value)
         if self.blocking:
-            tingbot.main_run_loop.stop()
+            self._run_loop.stop()
+            
+    def run_loop(self):
+        return self._run_loop
 
 
 class MessageBox(Dialog):
@@ -207,7 +206,6 @@ class MessageBox(Dialog):
                 parent=self.panel)
 
             button.callback = partial(self.close,label)
-        self.update(downwards=True)
         
 def message_box(xy=None, size=None, align="center", style=None,
                  buttons=None, message="", cancellable=True):

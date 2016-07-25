@@ -11,9 +11,9 @@ from .scrollarea import ScrollArea
 from .notebook import NoteBook
 
 from .dialog import Dialog, MessageBox, message_box
-from .popupmenu import PopupMenu, PopupButton
+from .popupmenu import PopupMenu, PopupButton, popup_menu
 from .style import Style, get_default_style
-from .keyboard import Keyboard
+from .keyboard import Keyboard, show_keyboard
 from .textentry import TextEntry, PasswordEntry
 
 def show_all():
