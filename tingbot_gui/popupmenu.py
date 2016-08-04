@@ -51,15 +51,16 @@ class PopupMenu(Dialog):
             canvas_size=list_size)
 
         # populate popupmenu
+        button_class = self.style.popupmenu_button_class or PopupButton
         for i, (label, item_callback) in enumerate(menu_items):
-            but = PopupButton(
+            but = button_class(
                 xy=(0, i * button_size[1]),
                 size = button_size,
                 align = "topleft",
                 parent = scroller.scrolled_area,
                 style = self.style,
                 label = label,
-                callback = partial(self.button_press,label, item_callback))
+                callback = partial(self.button_press, label, item_callback))
         self.update(downwards=True)
 
     def button_press(self, label, item_callback):

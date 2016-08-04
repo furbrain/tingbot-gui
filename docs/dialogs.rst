@@ -156,6 +156,9 @@ This is particularly useful for alert boxes and also pop-up menus
         - *button_text_font_size* -- font size to use
         - *popup_bg_color* -- color for the background of the popup
         - *popupmenu_button_size* -- default size for the menu items
+        - *popupmenu_button_class* -- set this to define a custom button class
+          (for example if you want to add icons etc to it). This class must have the
+          same `__init__` parameters as :class:`Button`.
         
     :Example:
         .. code-block:: python
