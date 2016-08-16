@@ -86,7 +86,7 @@ class Dialog(Container,tingbot.input.EventHandler):
                 if within_widget:
                     self.cancelling = False
                 else:
-                    self.close()
+                    self.close(None)
         if self.transition=="popup":
             super(Dialog, self).on_touch(pos, action)
         else:
@@ -164,7 +164,7 @@ class Dialog(Container,tingbot.input.EventHandler):
             self.animate_timer.stop()
             self.deanimate_timer = self.create_timer(self.deanimate,seconds=0.02)
             
-    def close_final(self,):
+    def close_final(self):
         self.visible = False
         get_root_widget().update(downwards=True)
         if self.callback:
