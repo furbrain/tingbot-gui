@@ -15,6 +15,7 @@ defaults = {
     'button_text_color': 'white',
     'button_text_font': None,  # use default font
     'button_text_font_size': 24,
+    'button_cancel_on_leave': True, # cancel a button press if the touch leaves the button before release
 
     'checkbox_color': 'red',  # color of the checkbox when not pressed
     'checkbox_text_color': 'white',

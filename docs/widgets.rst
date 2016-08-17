@@ -86,7 +86,8 @@ There are several different elements that can be used in an interface, known as 
           Two image files can be specified by separating them with a `|`. The second image will
           be used when the button is pressed
         - *callback* -- Function to be called when button is clicked. No arguments passed. 
-        - *long_click_callback* -- Function to be called when button is pressed for more than 1.5 seconds. No arguments passed. 
+        - *long_click_callback* -- Function to be called when button is pressed for 
+          more than 1.5 seconds. No arguments passed. 
           See :ref:`Callbacks` for more information
         
     :Style Attributes:
@@ -97,6 +98,8 @@ There are several different elements that can be used in an interface, known as 
         - *button_text_color* -- color to use for text
         - *button_text_font* -- font to use (default)
         - *button_text_font_size* -- font size to use
+        - *button_cancel_on_leave* -- if True (default), cancel a button press
+          if the touch leaves the button before release
         
     :Example:
         .. code-block:: python
@@ -143,6 +146,8 @@ There are several different elements that can be used in an interface, known as 
         - *button_text_color* -- color to use for text
         - *button_text_font* -- font to use (default)
         - *button_text_font_size* -- font size to use
+        - *button_cancel_on_leave* -- if True (default), cancel a button press
+          if the touch leaves the button before release
 
     :Example:
         .. code-block:: python
@@ -257,6 +262,8 @@ There are several different elements that can be used in an interface, known as 
         - *button_text_color* -- color to use for text
         - *button_text_font* -- font to use (default)
         - *button_text_font_size* -- font size to use
+        - *button_cancel_on_leave* -- if True (default), cancel a button press
+          if the touch leaves the button before release
         - *popup_bg_color* -- color for the background of the popup
         - *popupmenu_button_size* -- default size for the menu items
         - *popupmenu_button_class* -- set this to define a custom button class

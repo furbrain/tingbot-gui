@@ -20,6 +20,8 @@ class Button(Widget):
         button_text_color: color to use for text
         button_text_font: font to use (default)
         button_text_font_size: font size to use
+        button_cancel_on_leave: if True (default), cancel a button press if the touch leaves
+                                the button before release
     """
 
     def __init__(self, xy, size, align="center",
@@ -50,8 +52,9 @@ class Button(Widget):
             self.click_count += 1
             self.pressed = False
             self.update()
-            if self.local_rect.collidepoint(xy) and action=="up":
-                self.on_click()
+            if action=="up":
+                if self.local_rect.collidepoint(xy) or not self.style.button_cancel_on_leave:
+                    self.on_click()
         elif action == "move":
             if not self.local_rect.collidepoint(xy):
                 self.click_count += 1
@@ -138,13 +141,15 @@ class ToggleButton(Button):
         button_text_color: color to use for text
         button_text_font: font to use (default)
         button_text_font_size: font size to use
+        button_cancel_on_leave: if True (default), cancel a button press if the touch leaves
+                                the button before release
     """
 
     def on_touch(self, xy, action):
         if action == "down":
             self.pressed = not self.pressed
         elif action in ("up","drag_up"):
-            if pygame.Rect((0, 0), self.size).collidepoint(xy) and action=="up":
+            if (self.local_rect.collidepoint(xy) or not self.style.button_cancel_on_leave) and action=="up":
                 if self.callback:
                     self.callback(self.pressed)
             else:

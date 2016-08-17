@@ -26,8 +26,10 @@ def get_image_location(name,inverted=False):
     
 
 class KbButton(Button):
-    def __init__(self, xy, size, parent, keys, style,):
+    def __init__(self, xy, size, parent, keys, style):
         super(KbButton,self).__init__(xy,size,"topleft",parent,style)
+        self.style = style.copy()
+        self.style.button_cancel_on_leave = False
         self.keys = keys
         
     def draw(self):

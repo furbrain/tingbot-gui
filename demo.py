@@ -68,6 +68,7 @@ args = [{'xy':_xy_from_align(x,(500,500)),
 texts = [gui.StaticText(parent=scrollarea,**a) for a in args]
 
 #button panel
+no_cancel_style = gui.Style(button_cancel_on_leave=False)
 button_panel = gui.ScrollArea(canvas_size=panel_layouts['size'],**panel_layouts)
 button1 = gui.Button((0,0),(100,25),align="topleft",label="Button 1", 
                      parent = button_panel.scrolled_area, 
@@ -75,15 +76,20 @@ button1 = gui.Button((0,0),(100,25),align="topleft",label="Button 1",
                      long_click_callback = lambda: cb("Button 1(long)"))
 button2 = gui.Button((0,30),(100,25),align="topleft",label="image:player_play.png", 
                      parent = button_panel.scrolled_area, 
-                     callback = lambda: cb("Button 2(image)")) 
+                     callback = lambda: cb("Button 2(image)"),
+                     style = no_cancel_style) 
 button3 = gui.ToggleButton((0,60),(100,25),align="topleft",label="Tog But", 
                             parent = button_panel.scrolled_area, 
                             callback = lambda x: cb("Toggle Button",x))
-dropdown1 = gui.DropDown((0,90),(100,25),align="topleft",
+button4 = gui.ToggleButton((0,90),(100,25),align="topleft",label="Tog But NC", 
+                            parent = button_panel.scrolled_area, 
+                            callback = lambda x: cb("Toggle Button (no cancel)",x),
+                            style=no_cancel_style)
+dropdown1 = gui.DropDown((0,120),(100,25),align="topleft",
                          parent = button_panel.scrolled_area, 
                          values = ("DD one",("two","data for item two")),
                          callback = lambda x,y:cb("DropDown1",(x,y)))
-dropdown2 = gui.DropDown((0,120),(100,25),align="topleft", 
+dropdown2 = gui.DropDown((0,150),(100,25),align="topleft", 
                          parent = button_panel.scrolled_area, 
                          values = range(100),
                          callback = lambda x,y:cb("DropDown2",(x,y)))
