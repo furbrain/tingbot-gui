@@ -139,7 +139,7 @@ class ViewPort(Container):
     def on_touch(self, xy, action):
         if action=="down" and self.local_rect.collidepoint(xy):
             if self.flicking:
-                self.end_flick()
+                self.flicker_timer.stop()
                 self.dragging=True
             self.drag_start=True  
             self.drag_origin = xy
