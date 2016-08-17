@@ -162,8 +162,12 @@ class ViewPort(Container):
             if self.dragging:
                 action="drag_up"
                 self.dragging = False
-                if len(self.last_move)>=2:
-                    self.start_flick(self.get_velocity(self.last_move[-1],self.last_move[0]))
+                if len(self.last_move)>=3:
+                    try:
+                        self.start_flick(self.get_velocity(self.last_move[-1],self.last_move[0]))
+                    except ZeroDivisionError:
+                        # ignore divide by zero errors
+                        pass
                 self.last_move = []
         # translate xy positions to account for panel position, and pass on to
         # the panel for processing
