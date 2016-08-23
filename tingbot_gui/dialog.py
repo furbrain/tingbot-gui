@@ -114,8 +114,7 @@ class Dialog(Container,tingbot.input.EventHandler):
         if change<=0:
             self.animate_timer.stop()
         self.update()
-        self.update(downwards=True)
-        
+
     def deanimate(self):
         change = 10
         if self.transition=="slide_down":
@@ -135,7 +134,6 @@ class Dialog(Container,tingbot.input.EventHandler):
             self.panel_pos[0] += change
             self.bg_pos[0] += change
         self.update()
-        self.update(downwards=True)
         if change<=0:
             self.deanimate_timer.stop()
             self.close_final()
@@ -145,7 +143,9 @@ class Dialog(Container,tingbot.input.EventHandler):
             return
         else:
             self.surface.blit(self.panel.surface,self.panel_pos)
-            self.surface.blit(self.screen_copy,self.bg_pos)  
+            self.surface.blit(self.screen_copy,self.bg_pos)
+            
+            tingbot.screen.needs_update = True
         
     def run(self):
         self.blocking=True
