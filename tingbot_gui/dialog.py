@@ -3,6 +3,7 @@ from functools import partial
 import tingbot
 import pygame
 import pdb
+import math
 from .container import Container, get_root_widget, Panel
 
 from .scrollarea import VirtualPanel
