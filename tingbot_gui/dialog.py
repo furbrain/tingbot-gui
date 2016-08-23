@@ -3,6 +3,7 @@ from functools import partial
 import tingbot
 import pygame
 import pdb
+import math
 from .container import Container, get_root_widget, Panel
 
 from .scrollarea import VirtualPanel
@@ -92,51 +93,64 @@ class Dialog(Container,tingbot.input.EventHandler):
         else:
             pos = tingbot.graphics._xy_subtract(pos, self.panel_pos)
             self.panel.on_touch(pos,action)                   
-        
+
+    def animation_easing(self, number, towards):
+        '''
+        Returns the amount to change 'number' for a frame of animation. If animation should
+        stop, return 0.
+        '''
+        change = int(towards - number) * 0.15
+
+        # always round away from zero to prevent the animation getting stuck when fractional
+        # changes are calculated
+        if change > 0:
+            return math.ceil(change)
+        else:
+            return math.floor(change)
+
     def animate(self):
-        change = 10
         if self.transition=="slide_down":
-            change = min(change,-self.panel_pos[1])
+            change = self.animation_easing(self.panel_pos[1], towards=0)
             self.panel_pos[1] += change
             self.bg_pos[1] += change
         elif self.transition=="slide_up":
-            change = min(change,self.panel_pos[1]-(240-self.panel.size[1]))
-            self.panel_pos[1] -= change
-            self.bg_pos[1] -= change
+            change = self.animation_easing(self.panel_pos[1] + self.panel.size[1], towards=240)
+            self.panel_pos[1] += change
+            self.bg_pos[1] += change
         elif self.transition=="slide_right":
-            change = min(change,-self.panel_pos[0])
+            change = self.animation_easing(self.panel_pos[0], towards=0)
             self.panel_pos[0] += change
             self.bg_pos[0] += change
         elif self.transition=="slide_left":
-            change = min(change,self.panel_pos[0]-(320-self.panel.size[0]))
-            self.panel_pos[0] -= change
-            self.bg_pos[0] -= change
-        if change<=0:
+            change = self.animation_easing(self.panel_pos[0] + self.panel.size[0], towards=320)
+            self.panel_pos[0] += change
+            self.bg_pos[0] += change
+        if change==0:
             self.animate_timer.stop()
+
         self.update()
         self.update(downwards=True)
-        
+
     def deanimate(self):
-        change = 10
         if self.transition=="slide_down":
-            change = min(change,self.bg_pos[1])
-            self.panel_pos[1] -= change
-            self.bg_pos[1] -= change
+            change = self.animation_easing(self.bg_pos[1], towards=0)
+            self.panel_pos[1] += change
+            self.bg_pos[1] += change
         elif self.transition=="slide_up":
-            change = min(change,-self.bg_pos[1])
+            change = self.animation_easing(self.bg_pos[1], towards=0)
             self.panel_pos[1] += change
             self.bg_pos[1] += change
         elif self.transition=="slide_right":
-            change = min(change,self.bg_pos[0])
-            self.panel_pos[0] -= change
-            self.bg_pos[0] -= change
+            change = self.animation_easing(self.bg_pos[0], towards=0)
+            self.panel_pos[0] += change
+            self.bg_pos[0] += change
         elif self.transition=="slide_left":
-            change = min(change,-self.bg_pos[0])
+            change = self.animation_easing(self.bg_pos[0], towards=0)
             self.panel_pos[0] += change
             self.bg_pos[0] += change
         self.update()
         self.update(downwards=True)
-        if change<=0:
+        if change==0:
             self.deanimate_timer.stop()
             self.close_final()
         
