@@ -58,7 +58,7 @@ class Dialog(Container,tingbot.input.EventHandler):
                 self.panel_pos = [-size[0],0]
             elif transition=="slide_left":
                 self.panel_pos = [320,0]
-            self.animate_timer = self.create_timer(self.animate,seconds=0.02)
+            self.animate_timer = self.create_timer(self.animate,seconds=1/30.0)
               
     def touch_handler(self, event):
         action = None
@@ -129,7 +129,6 @@ class Dialog(Container,tingbot.input.EventHandler):
             self.animate_timer.stop()
 
         self.update()
-        self.update(downwards=True)
 
     def deanimate(self):
         if self.transition=="slide_down":
@@ -149,7 +148,6 @@ class Dialog(Container,tingbot.input.EventHandler):
             self.panel_pos[0] += change
             self.bg_pos[0] += change
         self.update()
-        self.update(downwards=True)
         if change==0:
             self.deanimate_timer.stop()
             self.close_final()
@@ -159,7 +157,9 @@ class Dialog(Container,tingbot.input.EventHandler):
             return
         else:
             self.surface.blit(self.panel.surface,self.panel_pos)
-            self.surface.blit(self.screen_copy,self.bg_pos)  
+            self.surface.blit(self.screen_copy,self.bg_pos)
+            
+            tingbot.screen.needs_update = True
         
     def run(self):
         self.blocking=True
