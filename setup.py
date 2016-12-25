@@ -6,9 +6,13 @@ try:
 except ImportError:
     from distutils.core import setup
 
+with open('README.md') as readme_file:
+    readme = readme_file.read()
+    
 setup(name='tingbot-gui',
       version='0.9',
       description='Graphical User Interface for tingbot',
+      long_description=readme,
       url='http://github.com/furbrain/tingbot-gui',
       author='Phil Underwood',
       author_email='beardydoc@gmail.com',
