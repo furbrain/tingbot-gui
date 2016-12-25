@@ -7,7 +7,7 @@ except ImportError:
     from distutils.core import setup
 
 setup(name='tingbot-gui',
-      version='0.1',
+      version='0.9',
       description='Graphical User Interface for tingbot',
       url='http://github.com/furbrain/tingbot-gui',
       author='Phil Underwood',
@@ -19,4 +19,14 @@ setup(name='tingbot-gui',
       install_requires=['tingbot-python'],
       dependency_links=['https://github.com/tingbot/tingbot-python/tarball/master'],
       zip_safe=False,
-      keywords='tingbot',)
+      keywords='tingbot',
+      classifiers=[
+          "Development Status :: 4 - Beta",
+          "Environment :: Other Environment",
+          "Intended Audience :: Developers",
+          "License :: OSI Approved :: BSD License",
+          "Operating System :: OS Independent",
+          "Programming Language :: Python",
+          "Programming Language :: Python :: 2.7",
+          "Topic :: Software Development :: User Interfaces"
+      ])
