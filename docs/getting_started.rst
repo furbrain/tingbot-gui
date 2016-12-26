@@ -7,7 +7,16 @@ numbers - red, green and blue [#]_ , so we're going to have three sliders, and a
 Setup
 -----
 
-So first of all lets import all the relevant libraries
+To use this software in a tingapp we have to tell it that the library is required. You will need to create
+``requirements.txt`` if it does not already exist. Add the following to this file to ensure that the tingbot_gui
+library is loaded::
+
+    tingbot-gui>=0.9
+
+
+Alternatively the library can be installed by ``pip install tingbot-gui``
+
+Next lets create ``main.py`` and import all the relevant libraries:
 
 .. code-block:: python    
 
