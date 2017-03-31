@@ -107,6 +107,14 @@ class KbText(Widget):
             else:
                 self.cursor_pos = len(self.string)
         self.update()
+        
+    def cursor_right(self):
+        self.cursor_pos = min(len(self.string), self.cursor_pos+1)
+        self.update()
+
+    def cursor_left(self):
+        self.cursor_pos = max(0, self.cursor_pos-1)
+        self.update()
 
                   
 class KeyboardPanel(Panel):
@@ -160,7 +168,24 @@ class KeyboardPanel(Panel):
 class Keyboard(Dialog):
     def __init__(self, label, text=u"", style=None, callback=None):
         super(Keyboard, self).__init__((0,0), (320,240), "topleft", style, callback=callback)
-        panel = KeyboardPanel(label, text, self, style)
+        self.panel = KeyboardPanel(label, text, self, style)
+        
+    def touch_handler(self, event):
+        #handle keypresses...
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_BACKSPACE:
+                self.panel.text.del_letter()
+            elif event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+                self.panel.new_line()
+            elif event.key == pygame.K_ESCAPE:
+                self.close(None)
+            elif event.key == pygame.K_LEFT:
+                self.panel.text.cursor_left()
+            elif event.key == pygame.K_RIGHT:
+                self.panel.text.cursor_right()
+            elif len(event.unicode) > 0:
+                self.panel.text.add_letter(event.unicode)
+        super(Keyboard,self).touch_handler(event)
         
 def show_keyboard(label, text=u"", style=None):
     return Keyboard(label,text,style).run()
