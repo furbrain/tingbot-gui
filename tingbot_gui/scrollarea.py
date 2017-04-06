@@ -138,11 +138,13 @@ class ViewPort(Container):
 
     def on_touch(self, xy, action):
         if action=="down" and self.local_rect.collidepoint(xy):
+            self.drag_start=True  
+            self.drag_origin = xy
             if self.flicking:
                 self.flick_timer.stop()
                 self.dragging=True
-            self.drag_start=True  
-            self.drag_origin = xy
+                self.last_move = [(xy,pygame.time.get_ticks())]
+                self.drag_offset = _xy_add(self.position,self.drag_origin)
         if action=="move" and self.drag_start:
             if self.dragging:
                 self.last_move.append((xy,pygame.time.get_ticks()))
