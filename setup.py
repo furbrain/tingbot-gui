@@ -10,7 +10,7 @@ with open('README.md') as readme_file:
     readme = readme_file.read()
     
 setup(name='tingbot-gui',
-      version='0.9.1',
+      version='0.9.3',
       description='Graphical User Interface for tingbot',
       long_description=readme,
       url='http://github.com/furbrain/tingbot-gui',
