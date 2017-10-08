@@ -114,10 +114,12 @@ def alert():
     cb("Alert dialog",gui.message_box(message="Alert triggered"))
     
 def question():
+    dialog_style = gui.Style(statictext_color="red")
     msg = gui.MessageBox(message="Do you like cheese?",
                          buttons=["Yes","No","Maybe"],
                          cancellable=False,
-                         callback = lambda x:cb("Question dialog",x))
+                         callback = lambda x:cb("Question dialog",x),
+                         style=dialog_style)
     msg.run()
 
 def popup(xy = (160,120)):

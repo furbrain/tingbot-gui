@@ -207,6 +207,7 @@ class MessageBox(Dialog):
         (w, h) = size
         text = StaticText(xy=(w / 2, h / 4),
                           size = (w, h / 2),
+                          style=self.style,
                           label=message,
                           parent=self.panel)
         but_size = self.style.messagebox_button_size
@@ -216,6 +217,7 @@ class MessageBox(Dialog):
                 xy=(button_offset + i * (but_size[0] + 5), h * 3 / 4),
                 size=but_size,
                 align="center",
+                style=self.style,
                 label=label,
                 parent=self.panel)
 
