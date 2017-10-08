@@ -115,7 +115,7 @@ def alert():
     
 def question():
     dialog_style = gui.Style(statictext_color="red")
-    msg = gui.MessageBox(message="Do you like cheese?",
+    msg = gui.MessageBox(message="Do you like cheese?\nEven Camembert?",
                          buttons=["Yes","No","Maybe"],
                          cancellable=False,
                          callback = lambda x:cb("Question dialog",x),

@@ -205,10 +205,18 @@ class MessageBox(Dialog):
         super(MessageBox, self).__init__(
             xy, size, align, style, cancellable, callback)
         (w, h) = size
-        text = StaticText(xy=(w / 2, h / 4),
-                          size = (w, h / 2),
+        font, _ = tingbot.graphics._font(font=self.style.statictext_font,
+                                      font_size=self.style.statictext_font_size, 
+                                      antialias=None)
+        linesize = font.get_linesize()
+        message_lines = message.splitlines()
+        
+        for i, line in enumerate(message_lines):
+            offset = i*linesize - ((len(message_lines)-1)*linesize/2)
+            StaticText(xy=(w / 2, (h / 4)+offset),
+                          size = (w, linesize),
                           style=self.style,
-                          label=message,
+                          label=line,
                           parent=self.panel)
         but_size = self.style.messagebox_button_size
         button_offset = (w - (len(buttons) - 1) * (but_size[0] + 5)) / 2
